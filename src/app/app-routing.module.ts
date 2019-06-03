@@ -4,6 +4,7 @@ import { LoginComponent } from './components/login/login.component'
 import { HomeComponent } from './components/home/home.component'
 import { AuthGuard } from './guards/auth.guard'
 import { LoggedGuard } from './guards/logged.guard'
+import { SectionComponent } from './components/section/section.component'
 
 const routes: Routes = [
   {
@@ -15,6 +16,10 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     canActivate: [LoggedGuard],
+  },
+  {
+    path: 'section/:id',
+    component: SectionComponent,
   },
   {
     path: '',

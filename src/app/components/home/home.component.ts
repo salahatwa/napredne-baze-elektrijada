@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { AuthService } from 'src/app/services/auth/auth.service'
-import { Router } from '@angular/router'
+import { ISection } from 'src/app/models/ISection'
 
 @Component({
   selector: 'app-home',
@@ -8,12 +7,10 @@ import { Router } from '@angular/router'
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor(private authService: AuthService, private router: Router) {}
+  sections: ISection[] = Array.from({ length: 30 }, (v, i) => ({
+    name: `Section ${i + 1}`,
+  }))
+  constructor() {}
 
   ngOnInit() {}
-
-  logout() {
-    this.authService.logout()
-    this.router.navigate(['/login'])
-  }
 }

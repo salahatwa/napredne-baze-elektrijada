@@ -1,0 +1,27 @@
+.gray-text {
+  font-weight: bold;
+  color: gray;
+}
+
+.or {
+  @extend .gray-text;
+  margin: 0;
+  align-self: center;
+}
+
+
+.create-options {
+  padding: 16px 0;
+  border-radius: 4px;
+  width: 50%;
+  margin: auto;
+}
+
+.container button {
+  width: 100px;
+}
+
+.form {
+  width: 60%;
+  margin: auto;
+}

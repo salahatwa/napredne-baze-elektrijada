@@ -17,7 +17,7 @@
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "prettier.printWidth": 90,
-  "editor.fontFamily": "Source Code Pro",
+  // "editor.fontFamily": "Source Code Pro",
   "prettier.semi": false,
   "prettier.singleQuote": true,
   "prettier.trailingComma": "es5",

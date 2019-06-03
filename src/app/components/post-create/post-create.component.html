@@ -1,0 +1,82 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title [ngClass]="'vertical-align-parent'">
+      <mat-icon>{{isPost ? 'forum' : 'event'}}</mat-icon>&nbsp;Create {{isPost ? 'a post' : 'an event'}}
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <ng-container *ngTemplateOutlet="post"></ng-container>
+  </mat-card-content>
+</mat-card>
+
+<ng-template #post>
+  <form #form="ngForm" [formGroup]="postForm" (ngSubmit)="submit()">
+    <mat-form-field class="width-100">
+      <input matInput appFreeInput formControlName="title"
+        [placeholder]="'Enter a title for ' + (isPost ? 'a post' : 'an event')" type="text">
+    </mat-form-field>
+    <ng-container *ngTemplateOutlet="postTypes.EVENT === postType && eventPart"></ng-container>
+    <mat-form-field class="width-100">
+      <textarea matInput appFreeInput formControlName="text"
+        [placeholder]="isPost ? 'What\'s this post about?' : 'Describe this event'">
+          </textarea>
+      <mat-hint>Minimum 20 characters!</mat-hint>
+    </mat-form-field>
+    <mat-card-actions fxLayout="row" fxLayoutAlign="flex-end">
+      <button mat-button type="button" (click)="finished.emit()">Cancel</button>
+      <button mat-raised-button color="primary" [disabled]="!form.valid">Post</button>
+    </mat-card-actions>
+  </form>
+</ng-template>
+
+
+<ng-template #eventPart>
+  <div fxLayout="row wrap" fxLayoutGap="12px" class="margin-standard">
+    <ng-container *ngTemplateOutlet="datePicker; context: {date: postForm.get('startDate'), placeholder: 'Start date'}">
+    </ng-container>
+    <ng-container *ngTemplateOutlet="timePicker; context: {timeFG: postForm.get('startTime')}">
+    </ng-container>
+  </div>
+  <div fxLayout="row wrap" fxLayoutGap="12px" class="margin-standard">
+    <ng-container *ngTemplateOutlet="datePicker; context: { date: postForm.get('endDate'), placeholder: 'End date'}">
+    </ng-container>
+    <ng-container *ngTemplateOutlet="timePicker; context: {timeFG: postForm.get('endTime')}">
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #datePicker let-date="date" let-placeholder="placeholder">
+  <mat-form-field fxFlex="calc(40% - 36px)">
+    <input matInput appFreeInput [formControl]="date" [matDatepicker]="picker" [placeholder]="placeholder">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</ng-template>
+
+
+<ng-template #timePicker let-timeFG="timeFG">
+  <mat-form-field fxFlex="20">
+    <mat-label>Hour</mat-label>
+    <mat-select [formControl]="timeFG.get('hour')">
+      <mat-option *ngFor="let item of array24" [value]="item">
+        {{item}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field fxFlex="20">
+    <mat-label>Minute</mat-label>
+    <mat-select [formControl]="timeFG.get('minute')">
+      <mat-option *ngFor="let item of array60" [value]="item">
+        {{item}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field fxFlex="20">
+    <mat-label>Seconds</mat-label>
+    <mat-select [formControl]="timeFG.get('second')">
+      <mat-option *ngFor="let item of array60" [value]="item">
+        {{item}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-template>

@@ -36,9 +36,30 @@ body {
 
 body {
   margin: 0;
-  font-family: 'Montserrat, sans-serif'
+  font-family: 'Montserrat, sans-serif';
+  background-color: #fafafa;
 }
 
+app-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  background-color: #3F51B5;
+}
+
+.navbar-header {
+  align-items: center;
+  padding: 8px 16px;
+  background-color: #3F51B5;
+  color: white;
+}
+
+.container {
+  width: 70%;
+  margin: auto;
+}
 
 
 .width-100 {
@@ -74,4 +95,14 @@ body {
 
 .block {
   display: block !important;
+}
+
+.margin-standard {
+  margin: 12px 0;
+}
+
+
+.vertical-align-parent {
+  display: flex !important;
+  align-items: center;
 }

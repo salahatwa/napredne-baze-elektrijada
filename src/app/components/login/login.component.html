@@ -10,9 +10,11 @@
     <form [formGroup]="loginForm" (ngSubmit)="login()">
       <mat-card-content>
         <mat-form-field class="block" [style.margin-bottom]="'24px'">
+          <mat-icon matSuffix>face</mat-icon>
           <input formControlName="username" matInput placeholder="Username" spellcheck="false" type="text">
         </mat-form-field>
         <mat-form-field class="block">
+          <mat-icon matSuffix>lock</mat-icon>
           <input formControlName="password" matInput placeholder="Password" spellcheck="false" type="password">
         </mat-form-field>
       </mat-card-content>
