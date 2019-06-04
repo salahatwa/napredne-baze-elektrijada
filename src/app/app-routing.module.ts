@@ -5,6 +5,8 @@ import { HomeComponent } from './components/home/home.component'
 import { AuthGuard } from './guards/auth.guard'
 import { LoggedGuard } from './guards/logged.guard'
 import { SectionComponent } from './components/section/section.component'
+import { ProfileComponent } from './components/profile/profile.component'
+import { IsAdminGuard } from './guards/is-admin.guard'
 
 const routes: Routes = [
   {
@@ -18,8 +20,18 @@ const routes: Routes = [
     canActivate: [LoggedGuard],
   },
   {
+    path: 'admin',
+    loadChildren: () =>
+      import('./feature-modules/admin/admin.module').then(m => m.AdminModule),
+    canLoad: [IsAdminGuard],
+  },
+  {
     path: 'section/:id',
     component: SectionComponent,
+  },
+  {
+    path: 'profile/:username',
+    component: ProfileComponent,
   },
   {
     path: '',

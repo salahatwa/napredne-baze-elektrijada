@@ -10,15 +10,14 @@ import { map, catchError, tap } from 'rxjs/operators'
 import { transformError } from 'src/app/common'
 
 interface IServerAuthResponse {
-  roles: string[]
   user: IUser
   token: string
 }
 
 const defaultAuthStatus: IUser = {
-  id: -1,
-  age: null,
+  _id: null,
   name: null,
+  username: null,
   email: null,
   roles: [Roles.NONE],
 }
@@ -33,24 +32,24 @@ export class AuthService extends CacheService {
     super()
   }
 
-  private authProvider(email: string, password: string): Observable<IServerAuthResponse> {
-    return this.http
-      .post<{ data: IServerAuthResponse }>(
-        environment.API_ENDPOINT + ApiEndpoints.LOGIN,
-        {
-          email,
-          password,
-        }
-      )
-      .pipe(map((value: { data: IServerAuthResponse }) => value.data))
+  private authProvider(
+    username: string,
+    password: string
+  ): Observable<IServerAuthResponse> {
+    return this.http.post<IServerAuthResponse>(
+      environment.API_ENDPOINT + ApiEndpoints.LOGIN,
+      {
+        username,
+        password,
+      }
+    )
   }
 
-  login(email: string, password: string): Observable<IUser> {
-    const loginResponse = this.authProvider(email, password).pipe(
+  login(username: string, password: string): Observable<IUser> {
+    const loginResponse = this.authProvider(username, password).pipe(
       map(data => {
         this.setToken(data.token)
         const user = data.user
-        user.roles = data.roles
         return user
       }),
       catchError(transformError)
@@ -87,7 +86,8 @@ export class AuthService extends CacheService {
 
   get isAuthenticated(): boolean {
     return (
-      this.authStatus.getValue().id !== -1 &&
+      this.authStatus.getValue() &&
+      this.authStatus.getValue()._id &&
       this.getToken() !== null &&
       this.getToken() !== undefined &&
       this.getToken().length !== 0
@@ -96,5 +96,9 @@ export class AuthService extends CacheService {
 
   get roles(): string[] {
     return this.authStatus.getValue().roles
+  }
+
+  get user(): IUser {
+    return this.getItem('authStatus')
   }
 }

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  API_ENDPOINT: 'https://moj-trening-api.strongman-api.xyz/api',
+  API_ENDPOINT: 'http://192.168.1.124:3005/api/',
 }
 
 /*

@@ -1,0 +1,43 @@
+<div class="container">
+  <app-entity-crud *ngFor="let entity of entititesArray">
+    <ng-container *ngFor="let item of entity.array">
+      <ng-container *ngTemplateOutlet="panel; context: { title: item.name, data: item, template: entity.template }">
+      </ng-container>
+    </ng-container>
+    <ng-container *ngTemplateOutlet="addNew; context: { template: entity.template, entityName: entity.name }">
+    </ng-container>
+  </app-entity-crud>
+</div>
+
+<ng-template #panel let-item="title" let-template="template" let-data="data">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{item}}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-container *ngTemplateOutlet="template; context: { entity: data }">
+    </ng-container>
+  </mat-expansion-panel>
+</ng-template>
+
+<ng-template #addNew let-template="template" let-entityName="entityName">
+  <div *ngIf="!entities[entityName].switch" fxLayout="row" fxLayoutAlign="center center" [style.padding]="'12px 0'">
+    <button mat-raised-button color="primary" type="button"
+      (click)="entities[entityName].switch = !entities[entityName].switch">Add
+      new {{entityName}}</button>
+  </div>
+
+  <ng-container *ngTemplateOutlet="entities[entityName].switch && template; context: {entityName: entityName}">
+  </ng-container>
+</ng-template>
+
+<ng-template #professorTemplate let-entity="entity" let-entityName="entityName">
+  <app-professor (finished)="entities[entityName].switch = !entities[entityName].switch" [professor]="entity || null">
+  </app-professor>
+</ng-template>
+
+<!-- <ng-template #sectionTemplate let-entity="entity" let-entityName="entityName">
+  <app-professor (finished)="entities[entityName].switch = !entities[entityName].switch" [professor]="entity || null">
+  </app-professor>
+</ng-template> -->

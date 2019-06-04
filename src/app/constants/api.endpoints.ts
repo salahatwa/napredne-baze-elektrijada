@@ -1,3 +1,4 @@
 export enum ApiEndpoints {
-  LOGIN = '/login',
+  LOGIN = 'auth/login',
+  REGISET = 'auth/register',
 }

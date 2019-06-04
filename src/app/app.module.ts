@@ -13,6 +13,7 @@ import { SectionComponent } from './components/section/section.component'
 import { PostCreateComponent } from './components/post-create/post-create.component'
 import { NavbarComponent } from './components/navbar/navbar.component'
 import { FreeInputDirective } from './directives/free-input.directive'
+import { ProfileComponent } from './components/profile/profile.component'
 
 @NgModule({
   declarations: [
@@ -23,12 +24,12 @@ import { FreeInputDirective } from './directives/free-input.directive'
     PostCreateComponent,
     NavbarComponent,
     FreeInputDirective,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FlexLayoutModule,
     AppRoutingModule,
     SharedModule,
   ],

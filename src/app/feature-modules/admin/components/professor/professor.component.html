@@ -1,0 +1,23 @@
+<form #form="ngForm" [formGroup]="professorForm" (ngSubmit)="submit()" fxLayout="column">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <app-image-picker fxFlex="30" (fileChanged)="professorForm.patchValue({imageURL: $event})"></app-image-picker>
+    <div fxFlex="64" fxLayout="column">
+      <mat-form-field>
+        <input matInput type="text" placeholder="Name" autocomplete="off" formControlName="name">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="text" placeholder="E-mail" formControlName="email">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="text" placeholder="Username" formControlName="username">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="password" autocomplete="off" placeholder="Password" formControlName="password">
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-around">
+    <button mat-button type="button" (click)="cancel()">Cancel</button>
+    <button mat-raised-button color="primary" [disabled]="!form.valid">{{editing ? 'Save' : 'Create'}}</button>
+  </div>
+</form>

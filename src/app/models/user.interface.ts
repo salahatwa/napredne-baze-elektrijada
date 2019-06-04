@@ -1,7 +1,8 @@
 export interface IUser {
-  id: number
+  _id: string
+  username: string
+  imageURL?: string
   email: string
   name: string
-  age: number
   roles: string[]
 }

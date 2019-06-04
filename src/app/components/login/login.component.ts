@@ -29,8 +29,7 @@ export class LoginComponent implements OnInit {
       .login(this.loginForm.value['username'], this.loginForm.value['password'])
       .subscribe(
         res => {
-          console.log(res)
-          if (res.id !== -1) {
+          if (res._id) {
             this.router.navigate(['/home'])
           }
         },
