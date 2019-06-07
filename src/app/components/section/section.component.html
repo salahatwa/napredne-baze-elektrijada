@@ -15,8 +15,13 @@
   </div>
   <ng-template #form>
     <div class="form">
-      <app-post-create (finished)="creatingAtm = postTypes.NONE" [postType]="creatingAtm">
+      <app-post-create (submitted)="addPost($event)" (finished)="creatingAtm = postTypes.NONE" [postType]="creatingAtm">
       </app-post-create>
     </div>
   </ng-template>
+  <app-post *ngFor="let post of posts" [post]="post" (postRemoved)="removePost($event)">
+  </app-post>
+  <app-post>
+  </app-post>
+
 </div>

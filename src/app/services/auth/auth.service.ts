@@ -27,9 +27,11 @@ const defaultAuthStatus: IUser = {
 })
 export class AuthService extends CacheService {
   authStatus = new BehaviorSubject<IUser>(this.getItem('authStatus') || defaultAuthStatus)
+  currentUser: IUser
 
   constructor(private http: HttpClient) {
     super()
+    this.authStatus.subscribe(user => (this.currentUser = user))
   }
 
   private authProvider(

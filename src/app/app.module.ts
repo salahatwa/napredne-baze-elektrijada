@@ -14,6 +14,9 @@ import { PostCreateComponent } from './components/post-create/post-create.compon
 import { NavbarComponent } from './components/navbar/navbar.component'
 import { FreeInputDirective } from './directives/free-input.directive'
 import { ProfileComponent } from './components/profile/profile.component'
+import { ChatComponent } from './components/chat/chat.component'
+import { PostComponent } from './components/post/post.component'
+import { CommentCreateComponent } from './components/comment-create/comment-create.component'
 
 @NgModule({
   declarations: [
@@ -25,6 +28,9 @@ import { ProfileComponent } from './components/profile/profile.component'
     NavbarComponent,
     FreeInputDirective,
     ProfileComponent,
+    ChatComponent,
+    PostComponent,
+    CommentCreateComponent,
   ],
   imports: [
     BrowserModule,

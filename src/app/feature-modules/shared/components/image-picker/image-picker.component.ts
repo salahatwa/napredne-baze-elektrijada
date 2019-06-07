@@ -1,4 +1,12 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core'
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  Input,
+  ViewChild,
+  ElementRef,
+} from '@angular/core'
 
 @Component({
   selector: 'app-image-picker',
@@ -6,7 +14,10 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core'
   styleUrls: ['./image-picker.component.scss'],
 })
 export class ImagePickerComponent implements OnInit {
-  defaultImg = 'assets/images/thumbnail.svg'
+  @Input() defaultImg = 'assets/images/thumbnail.svg'
+  @Input() imgClasses: string
+  @ViewChild('imgInput', { static: true }) imgInput: ElementRef<HTMLElement>
+
   image: File
   imageURL: string = null
 
@@ -24,5 +35,9 @@ export class ImagePickerComponent implements OnInit {
       this.fileChanged.emit(this.imageURL)
     }
     fileReader.readAsDataURL(this.image)
+  }
+
+  openFileExplorer() {
+    this.imgInput.nativeElement.click()
   }
 }

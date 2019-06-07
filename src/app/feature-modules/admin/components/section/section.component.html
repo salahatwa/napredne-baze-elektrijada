@@ -1,3 +1,20 @@
-<p>
-  section works!
-</p>
+<form #form="ngForm" [formGroup]="sectionForm" (ngSubmit)="submit()" fxLayout="column">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <app-image-picker fxFlex="30" (fileChanged)="sectionForm.patchValue({imageURL: $event})"></app-image-picker>
+    <div fxFlex="64" fxLayout="column">
+      <mat-form-field appearance="outline">
+        <input matInput type="text" placeholder="Name" autocomplete="off" formControlName="name">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Toppings</mat-label>
+        <mat-select [formControl]="toppings" multiple>
+          <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-around">
+    <button mat-button type="button" (click)="cancel()">Cancel</button>
+    <button mat-raised-button color="primary" [disabled]="!form.valid">{{editing ? 'Save' : 'Create'}}</button>
+  </div>
+</form>

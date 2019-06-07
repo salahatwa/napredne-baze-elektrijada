@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { PostTypes } from 'src/app/constants/post-types.enum'
 import * as _moment from 'moment'
 import * as _rollupMoment from 'moment'
+import { FormComponent } from 'src/app/models/FormComponent'
+import { IPost } from 'src/app/models/IPost'
+import { AuthService } from 'src/app/services/auth/auth.service'
 
 const moment = _rollupMoment || _moment
 const arrayMaker = (length: number) =>
@@ -13,8 +16,7 @@ const arrayMaker = (length: number) =>
   templateUrl: './post-create.component.html',
   styleUrls: ['./post-create.component.scss'],
 })
-export class PostCreateComponent implements OnInit {
-  @Output() finished = new EventEmitter()
+export class PostCreateComponent extends FormComponent<IPost> implements OnInit {
   @Input() postType = PostTypes.POST
 
   array24 = arrayMaker(24)
@@ -39,7 +41,9 @@ export class PostCreateComponent implements OnInit {
     second: ['', Validators.required],
   }
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private authService: AuthService) {
+    super()
+  }
 
   ngOnInit() {
     if (this.postType === PostTypes.POST) {
@@ -58,8 +62,13 @@ export class PostCreateComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.postForm.value)
-    this.finished.emit()
+    super.submit()
+    this.submitted.emit({
+      ...this.postForm.value,
+      user: this.authService.currentUser,
+      createdAt: new Date().toDateString(),
+      comments: [],
+    })
   }
 
   get isPost(): boolean {

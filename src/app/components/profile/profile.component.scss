@@ -1,0 +1,28 @@
+h1 {
+  font-size: 2.5em;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+small {
+  font-weight: bold;
+  color: gray;
+}
+
+
+img {
+  cursor: pointer;
+}
+
+
+label {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+mat-form-field {
+  display: block;
+  width: 80%;
+  margin: auto;
+}

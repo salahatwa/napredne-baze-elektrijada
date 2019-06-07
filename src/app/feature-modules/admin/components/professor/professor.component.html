@@ -1,17 +1,17 @@
-<form #form="ngForm" [formGroup]="professorForm" (ngSubmit)="submit()" fxLayout="column">
+<form #form="ngForm" [formGroup]="userForm" (ngSubmit)="submit()" fxLayout="column">
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <app-image-picker fxFlex="30" (fileChanged)="professorForm.patchValue({imageURL: $event})"></app-image-picker>
+    <app-image-picker fxFlex="30" (fileChanged)="userForm.patchValue({imageURL: $event})"></app-image-picker>
     <div fxFlex="64" fxLayout="column">
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <input matInput type="text" placeholder="Name" autocomplete="off" formControlName="name">
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <input matInput type="text" placeholder="E-mail" formControlName="email">
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <input matInput type="text" placeholder="Username" formControlName="username">
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <input matInput type="password" autocomplete="off" placeholder="Password" formControlName="password">
       </mat-form-field>
     </div>

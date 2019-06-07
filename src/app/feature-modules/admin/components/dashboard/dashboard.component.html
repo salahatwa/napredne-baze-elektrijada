@@ -33,11 +33,11 @@
 </ng-template>
 
 <ng-template #professorTemplate let-entity="entity" let-entityName="entityName">
-  <app-professor (finished)="entities[entityName].switch = !entities[entityName].switch" [professor]="entity || null">
+  <app-professor (finished)="entities[entityName].switch = !entities[entityName].switch" [user]="entity || null">
   </app-professor>
 </ng-template>
 
-<!-- <ng-template #sectionTemplate let-entity="entity" let-entityName="entityName">
-  <app-professor (finished)="entities[entityName].switch = !entities[entityName].switch" [professor]="entity || null">
-  </app-professor>
-</ng-template> -->
+<ng-template #sectionTemplate let-entity="entity" let-entityName="entityName">
+  <app-section (finished)="entities[entityName].switch = !entities[entityName].switch" [section]="entity || null">
+  </app-section>
+</ng-template>

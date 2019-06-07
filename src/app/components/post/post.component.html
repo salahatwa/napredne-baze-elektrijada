@@ -1,0 +1,76 @@
+<mat-card>
+  <div class="card-header" fxLayout="row" fxLayoutGap="12px">
+    <img hoverable class="comment-avatar" width="48px" [src]="post.user.imageURL || 'assets/images/avatar.png'" />
+    <div hoverable>{{post.user.name || post.user.username}}</div>
+    <span fxFlex="1 1 auto"></span>
+    <!--SPACER-->
+    <ng-container *ngTemplateOutlet="postMenu; context: {post: post}"></ng-container>
+  </div>
+  <mat-card-title>{{post.title}}</mat-card-title>
+  <mat-card-content>
+    <div class="text">
+      {{post.text}}
+    </div>
+    <div class="date">
+      {{post.createdAt}}
+    </div>
+    <hr />
+    <h5 [style.font-weight]="'bold'">Komentari({{post.comments.length}})</h5>
+    <app-comment-create (submitted)="addComment($event)"></app-comment-create>
+    <div class="comment" *ngFor="let comment of post.comments">
+      <div fxLayout="row" fxLayoutGap="12px">
+        <div fxFlex="0 0 auto">
+          <img hoverable class="comment-avatar" [src]="comment.user.imageURL || 'assets/images/avatar.png'"
+            width="28px" />
+        </div>
+        <div fxFlex="0 1 auto" class="comment-content" [class.content-both]="comment.text && comment.imageURL">
+          <div class="comment-owner" fxLayout="row" fxLayoutAlign="space-between center">
+            <div hoverable>{{comment.user.name || comment.user.username}}</div>
+            <ng-container *ngTemplateOutlet="commentMenu; context: {comment: comment}"></ng-container>
+          </div>
+          <ng-container *ngTemplateOutlet="comment.text && textComment; context: {text: comment.text}">
+          </ng-container>
+          <ng-container *ngTemplateOutlet="comment.imageURL && imgComment; context: {comment: comment}">
+          </ng-container>
+          <div class="date">{{comment.createdAt}}</div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+
+<ng-template #textComment let-text="text">
+  <div>{{text}}</div>
+</ng-template>
+
+<ng-template #imgComment let-comment="comment">
+  <img class="comment-img" [class.comment-img-with-text]="comment.text && comment.imageURL" [src]="comment.imageURL">
+</ng-template>
+
+
+<ng-template #commentMenu let-comment="comment">
+  <div><button mat-icon-button [matMenuTriggerFor]="appMenu">
+      <mat-icon>more_horiz</mat-icon>
+    </button>
+    <mat-menu #appMenu="matMenu">
+      <button mat-menu-item (click)="removeComment(comment)">
+        <mat-icon color="warn">delete</mat-icon>Delete
+      </button>
+      <button mat-menu-item>Help</button>
+    </mat-menu>
+  </div>
+</ng-template>
+
+<ng-template #postMenu let-post="post">
+  <div><button mat-icon-button [matMenuTriggerFor]="appMenu">
+      <mat-icon>more_horiz</mat-icon>
+    </button>
+    <mat-menu #appMenu="matMenu">
+      <button mat-menu-item (click)="postRemoved.emit(post)">
+        <mat-icon color="warn">delete</mat-icon>Delete
+      </button>
+      <button mat-menu-item>Help</button>
+    </mat-menu>
+  </div>
+</ng-template>
