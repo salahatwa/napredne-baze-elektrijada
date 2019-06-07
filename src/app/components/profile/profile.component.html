@@ -8,35 +8,35 @@
         </app-image-picker>
         <!-- <img src="assets/images/avatar.png" width="100%"> -->
         <small>Click on the image to change it</small>
-        <button mat-raised-button color="primary" [style.margin]="'12px 0'">
+        <button *ngIf="!itsMe" mat-raised-button color="primary" [style.margin]="'12px 0'">
           <mat-icon>person_add</mat-icon>&nbsp;Add Friend
         </button>
       </div>
     </div>
     <div fxFlex="70">
-      <form [formGroup]="userForm">
+      <form #form="ngForm" [formGroup]="userForm">
         <mat-form-field appearance="outline">
           <mat-label>Name</mat-label>
           <input matInput formControlName="name" type="text">
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>username</mat-label>
-          <input matInput type="text">
+          <input matInput formControlName="username" type="text">
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>email</mat-label>
-          <input matInput formControlName="username" type="email">
+          <input matInput formControlName="email" type="email">
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>User Role</mat-label>
-          <mat-select>
-            <mat-option *ngFor="let role of roles" [value]="role">
+          <mat-select formControlName="roles" multiple>
+            <mat-option *ngFor="let role of rolesList" [value]="role">
               {{role}}
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="space-around center">
-          <button mat-raised-button type="button">Cancel
+        <div *ngIf="itsMe && form.dirty" fxLayout="row" fxLayoutAlign="space-around center">
+          <button mat-raised-button type="button" (click)="resetInitialForm()">Cancel
           </button>
           <button mat-raised-button color="primary">Save
           </button>

@@ -1,8 +1,17 @@
 import { IPost } from './IPost'
+import { Moment } from 'moment'
 
 export interface IEvent extends IPost {
-  startDate: string
-  startTime: string
-  endDate: string
-  endTime: string
+  startDate: Moment
+  startTime: {
+    hour: string
+    minute: string
+    second: string
+  }
+  endDate: Moment
+  endTime: {
+    hour: string
+    minute: string
+    second: string
+  }
 }

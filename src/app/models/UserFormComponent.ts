@@ -21,13 +21,19 @@ export class UserForm extends FormComponent<IUser> implements OnInit {
     return this.formBuilder.group({
       imageURL: [professor ? professor.imageURL : ''],
       name: [professor ? professor.name : '', Validators.required],
-      email: [professor ? professor.email : '', Validators.required, Validators.email],
+      email: [professor ? professor.email : '', Validators.required],
       username: [professor ? professor.username : '', Validators.required],
-      password: ['', Validators.required],
+      password: ['', professor ? [] : [Validators.required]],
+      roles: [professor ? professor.roles : ''],
     })
   }
 
   get editing(): boolean {
     return this.user !== null
+  }
+
+  submit() {
+    super.submit()
+    this.submitted.emit(this.userForm.value)
   }
 }

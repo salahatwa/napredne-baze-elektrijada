@@ -1,7 +1,8 @@
 <div class="container">
-  <app-entity-crud *ngFor="let entity of entititesArray">
+  <app-entity-crud [title]="entity.title" *ngFor="let entity of entititesArray">
     <ng-container *ngFor="let item of entity.array">
-      <ng-container *ngTemplateOutlet="panel; context: { title: item.name, data: item, template: entity.template }">
+      <ng-container
+        *ngTemplateOutlet="panel; context: { title: item.name, data: item, template: entity.template, entityName: entity.name }">
       </ng-container>
     </ng-container>
     <ng-container *ngTemplateOutlet="addNew; context: { template: entity.template, entityName: entity.name }">
@@ -9,14 +10,20 @@
   </app-entity-crud>
 </div>
 
-<ng-template #panel let-item="title" let-template="template" let-data="data">
-  <mat-expansion-panel>
+<ng-template #panel let-item="title" let-template="template" let-data="data" let-entityName="entityName">
+  <mat-expansion-panel #expansionPanel>
     <mat-expansion-panel-header>
-      <mat-panel-title>
+      <mat-panel-title [style.align-items]="'center'">
         {{item}}
       </mat-panel-title>
+      <mat-panel-description [style.justify-content]="'flex-end'">
+        <button mat-icon-button [style.color]="'red'" (click)="$event.stopPropagation()">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-panel-description>
     </mat-expansion-panel-header>
-    <ng-container *ngTemplateOutlet="template; context: { entity: data }">
+    <ng-container
+      *ngTemplateOutlet="template; context: { entity: data, entityName: entityName, panel: expansionPanel }">
     </ng-container>
   </mat-expansion-panel>
 </ng-template>
@@ -32,12 +39,16 @@
   </ng-container>
 </ng-template>
 
-<ng-template #professorTemplate let-entity="entity" let-entityName="entityName">
-  <app-professor (finished)="entities[entityName].switch = !entities[entityName].switch" [user]="entity || null">
+<ng-template #professorTemplate let-entity="entity" let-entityName="entityName" let-panel="panel">
+  <app-professor (submitted)="entities.professor.add($event)"
+    (finished)="entity ? panel.toggle() : entities[entityName].switch = !entities[entityName].switch" [user]="entity ||
+    null">
   </app-professor>
 </ng-template>
 
-<ng-template #sectionTemplate let-entity="entity" let-entityName="entityName">
-  <app-section (finished)="entities[entityName].switch = !entities[entityName].switch" [section]="entity || null">
+<ng-template #sectionTemplate let-entity="entity" let-entityName="entityName" let-panel="panel">
+  <app-section (submitted)="entities.section.add($event)"
+    (finished)="entity ? panel.toggle() : entities[entityName].switch = !entities[entityName].switch"
+    [section]="entity || null">
   </app-section>
 </ng-template>

@@ -4,7 +4,7 @@
   <button mat-button *ngIf="isAdmin" [routerLink]="['admin','dashboard']" [routerLinkActive]="'route-active'">
     <mat-icon>dashboard</mat-icon>DashBoard
   </button>
-  <button mat-button [routerLink]="['profile', user.username]" [routerLinkActive]="'route-active'">
+  <button mat-button [routerLink]="['profile', user._id]" [routerLinkActive]="'route-active'">
     <mat-icon>person</mat-icon>{{user.username}}
   </button>
   <button mat-button (click)="logout()">

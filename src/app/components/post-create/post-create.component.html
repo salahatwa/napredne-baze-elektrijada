@@ -31,12 +31,14 @@
 
 
 <ng-template #eventPart>
+  <h4 class="mat-h4 date-header">Starts at:</h4>
   <div fxLayout="row wrap" fxLayoutGap="12px" class="margin-standard">
     <ng-container *ngTemplateOutlet="datePicker; context: {date: postForm.get('startDate'), placeholder: 'Start date'}">
     </ng-container>
     <ng-container *ngTemplateOutlet="timePicker; context: {timeFG: postForm.get('startTime')}">
     </ng-container>
   </div>
+  <h4 class="mat-h4 date-header">Ends at:</h4>
   <div fxLayout="row wrap" fxLayoutGap="12px" class="margin-standard">
     <ng-container *ngTemplateOutlet="datePicker; context: { date: postForm.get('endDate'), placeholder: 'End date'}">
     </ng-container>

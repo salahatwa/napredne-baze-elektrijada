@@ -1,6 +1,6 @@
 .img {
   object-fit: cover;
-  max-width: 100%;
+  max-width: calc(100% - 24px);
   max-height: 300px;
   border-radius: 8px;
   cursor: pointer;

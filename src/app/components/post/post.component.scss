@@ -81,3 +81,20 @@ mat-card {
   display: flex;
   flex-direction: column;
 }
+
+.vertical-line {
+  width: 2px;
+  background-color: #212121;
+}
+
+.circle {
+  width: 10px;
+  border-radius: 50%;
+  background-color: #212121;
+}
+
+
+.event-time {
+  color: #212121;
+  font-weight: bold;
+}

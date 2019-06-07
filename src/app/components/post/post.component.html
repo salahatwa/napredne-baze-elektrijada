@@ -8,6 +8,13 @@
   </div>
   <mat-card-title>{{post.title}}</mat-card-title>
   <mat-card-content>
+    <div fxLayout="column" fxLayoutAlign="center center" *ngIf="isEvent">
+      <div class="event-time">{{eventTime(true)}}</div>
+      <div fxFlex="10px" class="circle"></div>
+      <div fxFlex="80px" class="vertical-line"></div>
+      <div fxFlex="10px" class="circle"></div>
+      <div class="event-time">{{eventTime(false)}}</div>
+    </div>
     <div class="text">
       {{post.text}}
     </div>

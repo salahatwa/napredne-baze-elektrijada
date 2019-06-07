@@ -16,12 +16,11 @@ export class SectionComponent extends FormComponent<ISection> implements OnInit 
 
   constructor(private formBuilder: FormBuilder) {
     super()
-    if (this.section) {
-      this.sectionForm = this.buildForm(this.section)
-    }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.sectionForm = this.buildForm(this.section)
+  }
 
   buildForm(section?: ISection) {
     return this.formBuilder.group({
@@ -32,5 +31,10 @@ export class SectionComponent extends FormComponent<ISection> implements OnInit 
 
   get editing(): boolean {
     return this.section !== null
+  }
+
+  submit() {
+    super.submit()
+    this.submitted.emit(this.sectionForm.value)
   }
 }

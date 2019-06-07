@@ -12,3 +12,7 @@ export function transformError(error: HttpErrorResponse | string) {
   }
   return throwError(errorMessage)
 }
+
+export const transformDateNumber = (date: number) => {
+  return date < 10 ? `${0}date` : `${date}`
+}

@@ -6,6 +6,7 @@ import * as _rollupMoment from 'moment'
 import { FormComponent } from 'src/app/models/FormComponent'
 import { IPost } from 'src/app/models/IPost'
 import { AuthService } from 'src/app/services/auth/auth.service'
+import { IEvent } from 'src/app/models/IEvent'
 
 const moment = _rollupMoment || _moment
 const arrayMaker = (length: number) =>
@@ -18,6 +19,7 @@ const arrayMaker = (length: number) =>
 })
 export class PostCreateComponent extends FormComponent<IPost> implements OnInit {
   @Input() postType = PostTypes.POST
+  @Input() post: IPost
 
   array24 = arrayMaker(24)
   array60 = arrayMaker(60)
@@ -27,18 +29,22 @@ export class PostCreateComponent extends FormComponent<IPost> implements OnInit 
   postTypes = PostTypes
   postForm: FormGroup
 
-  essentialFormObj = {
-    title: ['', Validators.required],
-    text: [
-      '',
-      [Validators.required, Validators.minLength(20), Validators.maxLength(1000)],
-    ],
+  essentialFormObj(post: IPost) {
+    return {
+      title: [post ? post.title : '', Validators.required],
+      text: [
+        post ? post.text : '',
+        [Validators.required, Validators.minLength(20), Validators.maxLength(1000)],
+      ],
+    }
   }
 
-  timeFormObj = {
-    hour: ['', Validators.required],
-    minute: ['', Validators.required],
-    second: ['', Validators.required],
+  timeFormObj(post: IEvent) {
+    return {
+      hour: [post ? post.startTime.hour : '00', Validators.required],
+      minute: [post ? post.startTime.minute : '00', Validators.required],
+      second: [post ? post.startTime.second : '00', Validators.required],
+    }
   }
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService) {
@@ -46,17 +52,22 @@ export class PostCreateComponent extends FormComponent<IPost> implements OnInit 
   }
 
   ngOnInit() {
+    this.buildForm(this.post)
+  }
+
+  buildForm(post: IPost) {
     if (this.postType === PostTypes.POST) {
-      this.postForm = this.formBuilder.group(this.essentialFormObj)
+      this.postForm = this.formBuilder.group(this.essentialFormObj(post))
     }
 
     if (this.postType === PostTypes.EVENT) {
+      const event = post as IEvent
       this.postForm = this.formBuilder.group({
-        ...this.essentialFormObj,
-        startDate: [moment(), Validators.required],
-        startTime: this.formBuilder.group(this.timeFormObj),
-        endDate: [moment(), Validators.required],
-        endTime: this.formBuilder.group(this.timeFormObj),
+        ...this.essentialFormObj(event),
+        startDate: moment(event ? event.startDate : undefined),
+        endDate: moment(event ? event.startDate : undefined),
+        startTime: this.formBuilder.group(this.timeFormObj(event)),
+        endTime: this.formBuilder.group(this.timeFormObj(event)),
       })
     }
   }

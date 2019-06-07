@@ -30,7 +30,7 @@ const routes: Routes = [
     component: SectionComponent,
   },
   {
-    path: 'profile/:username',
+    path: 'profile/:id',
     component: ProfileComponent,
   },
   {

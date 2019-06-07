@@ -1,7 +1,7 @@
 <form #form="ngForm" (ngSubmit)="submit()">
   <ng-container *ngTemplateOutlet="imageURL && img"></ng-container>
   <div fxLayout="row" fxLayoutAlign="space-between">
-    <mat-form-field fxFlex="78" appearance="outline">
+    <mat-form-field class="textarea-field" fxFlex="78" appearance="outline">
       <mat-label>Add a comment</mat-label>
       <textarea matInput [(ngModel)]="text" type="text" name="text" appFreeInput><div>nesto</div></textarea>
     </mat-form-field>

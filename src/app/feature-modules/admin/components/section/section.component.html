@@ -1,6 +1,7 @@
 <form #form="ngForm" [formGroup]="sectionForm" (ngSubmit)="submit()" fxLayout="column">
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <app-image-picker fxFlex="30" (fileChanged)="sectionForm.patchValue({imageURL: $event})"></app-image-picker>
+    <app-image-picker #imgPicker fxFlex="30" [defaultImg]="sectionForm.get('imageURL').value || imgPicker.defaultImg"
+      (fileChanged)="sectionForm.patchValue({imageURL: $event})"></app-image-picker>
     <div fxFlex="64" fxLayout="column">
       <mat-form-field appearance="outline">
         <input matInput type="text" placeholder="Name" autocomplete="off" formControlName="name">
