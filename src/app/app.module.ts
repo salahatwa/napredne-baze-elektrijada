@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { SharedModule } from './feature-modules/shared/shared.module'
 import { LoginComponent } from './components/login/login.component'
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { HomeComponent } from './components/home/home.component'
 import { SectionComponent } from './components/section/section.component'
 import { PostCreateComponent } from './components/post-create/post-create.component'
@@ -17,6 +17,8 @@ import { ProfileComponent } from './components/profile/profile.component'
 import { ChatComponent } from './components/chat/chat.component'
 import { PostComponent } from './components/post/post.component'
 import { CommentCreateComponent } from './components/comment-create/comment-create.component'
+import { FormsModule } from '@angular/forms'
+import { RequestHttpInterceptor as HttpApiInterceptor } from './interceptors/http-api-interceptor'
 
 @NgModule({
   declarations: [
@@ -33,13 +35,20 @@ import { CommentCreateComponent } from './components/comment-create/comment-crea
     CommentCreateComponent,
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
     SharedModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpApiInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

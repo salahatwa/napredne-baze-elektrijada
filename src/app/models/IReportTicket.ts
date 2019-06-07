@@ -1,5 +1,5 @@
 export interface IReportTicket {
-  _id: string
+  _id?: string
   text: string
   contactEmail: string
   contactName: string

@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment'
 import { makePagination } from '../common'
 import { IPaginationResponse } from '../models/IPaginationResponse'
 import { IChatSession } from '../models/IChatSession'
+import { IUser } from '../models/user.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -27,15 +28,28 @@ export class ChatService {
     )
   }
 
-  getSessionByUserId(userId: string) {
-    return this.http.get<IChatSession>(
-      environment.API_ENDPOINT + this.route + 'user/' + userId
+  getSessionByUserId(userId: string, skip?: number, take?: number) {
+    const params = makePagination(skip, take)
+    return this.http.get<SessionWithMessageAndUser>(
+      environment.API_ENDPOINT + this.route + 'user/' + userId,
+      { params }
     )
   }
 
-  getSessionBySessionId(sessionId: string) {
-    return this.http.get<IChatSession>(
-      environment.API_ENDPOINT + this.route + 'session/' + sessionId
+  getSessionBySessionId(sessionId: string, skip?: number, take?: number) {
+    const params = makePagination(skip, take)
+    return this.http.get<SessionWithMessages>(
+      environment.API_ENDPOINT + this.route + 'session/' + sessionId,
+      { params }
     )
   }
+}
+
+export interface SessionWithMessages {
+  session: IChatSession
+  data: IPaginationResponse<IChatMessage>
+}
+
+export interface SessionWithMessageAndUser extends SessionWithMessages {
+  user: IUser
 }

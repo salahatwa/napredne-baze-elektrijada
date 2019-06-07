@@ -4,11 +4,14 @@ import { IUser } from './user.interface'
 import { IChatSession } from './IChatSession'
 
 export interface IChatMessage {
-  _id: string
+  _id?: string
   text?: string
-  sender: IUser | string
+  sender: string
   data?: IEvent | IPost | string
   onModel?: string
   session: string | IChatSession
-  filesBase64: string[]
+  filesBase64?: string[]
+  files?: string[]
+  createdAt: string
+  ref?: string
 }

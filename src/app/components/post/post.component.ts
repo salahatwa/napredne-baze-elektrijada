@@ -15,7 +15,12 @@ export class PostComponent implements OnInit {
   @Output() postRemoved = new EventEmitter<IPost>()
 
   @Input() post: IPost = {
-    user: { name: faker.name.findName(), imageURL: faker.image.avatar() },
+    _id: faker.random.uuid(),
+    user: {
+      _id: faker.random.uuid(),
+      name: faker.name.findName(),
+      imageURL: faker.image.avatar(),
+    },
     title: faker.name.title(),
     text: faker.lorem.paragraph(),
     comments: Array.from({ length: 5 }, (v, i) => {

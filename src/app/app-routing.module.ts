@@ -7,6 +7,7 @@ import { LoggedGuard } from './guards/logged.guard'
 import { SectionComponent } from './components/section/section.component'
 import { ProfileComponent } from './components/profile/profile.component'
 import { IsAdminGuard } from './guards/is-admin.guard'
+import { ChatComponent } from './components/chat/chat.component'
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
   {
     path: 'profile/:id',
     component: ProfileComponent,
+  },
+  {
+    path: 'chat/:id',
+    component: ChatComponent,
   },
   {
     path: '',
