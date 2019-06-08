@@ -12,21 +12,21 @@ export class SectionService {
   constructor(private http: HttpClient) {}
 
   getSections() {
-    return this.http.get<IPaginationResponse<ISection>>(
-      environment.API_ENDPOINT + this.route
-    )
+    return this.http.get<ISection[]>(environment.API_ENDPOINT + this.route)
+  }
+
+  createSection(section: ISection) {
+    return this.http.post<ISection>(environment.API_ENDPOINT + this.route, section)
   }
 
   updateSection(section: ISection) {
     return this.http.put<ISection>(
-      environment.API_ENDPOINT + this.route + '/' + section._id,
+      environment.API_ENDPOINT + this.route + section._id,
       section
     )
   }
 
   deleteSection(sectionId: string) {
-    return this.http.delete<ISection>(
-      environment.API_ENDPOINT + this.route + '/' + sectionId
-    )
+    return this.http.delete<ISection>(environment.API_ENDPOINT + this.route + sectionId)
   }
 }

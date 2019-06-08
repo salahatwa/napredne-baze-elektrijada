@@ -1,2 +1,2 @@
 <input #imgInput type="file" accept="image/*" (change)="fileAdded($event)" [ngStyle]="{ display: 'none' }" />
-<img [class]="'img' + ' ' + imgClasses" [src]="imageURL || defaultImg" (click)="imgInput.click()">
+<img [class]="'img' + ' ' + imgClasses" [src]="defaultImg" (click)="imgInput.click()">

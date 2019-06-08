@@ -1,21 +1,19 @@
 <form #form="ngForm" [formGroup]="sectionForm" (ngSubmit)="submit()" fxLayout="column">
-  <div fxLayout="row" fxLayoutAlign="space-between center">
-    <app-image-picker #imgPicker fxFlex="30" [defaultImg]="sectionForm.get('imageURL').value || imgPicker.defaultImg"
-      (fileChanged)="sectionForm.patchValue({imageURL: $event})"></app-image-picker>
+  <div fxLayout="row" fxLayoutAlign="space-around center">
+    <div fxLayout="column" fxFlex="30" fxLayoutAlign="center center">
+      <app-image-picker #imgPicker [defaultImg]="sectionForm.get('imageURL').value || imgPicker.defaultImg"
+        (fileChanged)="sectionForm.get('imageURL').setValue($event); sectionForm.get('imageURL').markAsDirty()">
+      </app-image-picker>
+      <small *ngIf="!section">You must upload an image</small>
+    </div>
     <div fxFlex="64" fxLayout="column">
       <mat-form-field appearance="outline">
         <input matInput type="text" placeholder="Name" autocomplete="off" formControlName="name">
       </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Toppings</mat-label>
-        <mat-select [formControl]="toppings" multiple>
-          <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
-        </mat-select>
-      </mat-form-field>
     </div>
   </div>
-  <div fxLayout="row" fxLayoutAlign="space-around">
-    <button mat-button type="button" (click)="cancel()">Cancel</button>
+  <div fxLayout="row" fxLayoutAlign="space-around" *ngIf="editing && form.dirty">
+    <button mat-button type="button" (click)="resetForm(); cancel();">Cancel</button>
     <button mat-raised-button color="primary" [disabled]="!form.valid">{{editing ? 'Save' : 'Create'}}</button>
   </div>
 </form>

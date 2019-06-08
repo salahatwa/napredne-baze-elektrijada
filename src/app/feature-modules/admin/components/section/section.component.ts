@@ -24,7 +24,7 @@ export class SectionComponent extends FormComponent<ISection> implements OnInit 
 
   buildForm(section?: ISection) {
     return this.formBuilder.group({
-      imageURL: [section ? section.imageURL : ''],
+      imageURL: [section ? section.imageURL : '', Validators.required],
       name: [section ? section.name : '', Validators.required],
     })
   }
@@ -35,6 +35,17 @@ export class SectionComponent extends FormComponent<ISection> implements OnInit 
 
   submit() {
     super.submit()
-    this.submitted.emit(this.sectionForm.value)
+    const section = this.sectionForm.value
+    const base64 = section.imageURL
+    delete section.imageURL
+    this.submitted.emit({
+      ...section,
+      imageBase64: base64,
+      _id: this.section ? this.section._id : undefined,
+    })
+  }
+
+  resetForm() {
+    this.sectionForm.reset(this.section)
   }
 }

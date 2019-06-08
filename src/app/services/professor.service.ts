@@ -14,25 +14,26 @@ export class ProfessorService {
 
   getProfessors(skip?: number, take?: number) {
     const params = makePagination(skip, take)
-    this.http.get<IPaginationResponse<IUser>>(environment.API_ENDPOINT + this.route, {
-      params,
-    })
+    return this.http.get<IPaginationResponse<IUser>>(
+      environment.API_ENDPOINT + this.route,
+      {
+        params,
+      }
+    )
   }
 
   createProfessor(professor: IUser) {
-    this.http.post<IUser>(environment.API_ENDPOINT + this.route, professor)
+    return this.http.post<IUser>(environment.API_ENDPOINT + this.route, professor)
   }
 
   updateProfessor(professor: IUser) {
-    this.http.put<IUser>(
-      environment.API_ENDPOINT + this.route + '/' + professor._id,
+    return this.http.put<IUser>(
+      environment.API_ENDPOINT + this.route + professor._id,
       professor
     )
   }
 
   deleteProfessor(professorId: string) {
-    return this.http.delete<IUser>(
-      environment.API_ENDPOINT + this.route + '/' + professorId
-    )
+    return this.http.delete<IUser>(environment.API_ENDPOINT + this.route + professorId)
   }
 }

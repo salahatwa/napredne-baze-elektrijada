@@ -17,7 +17,7 @@
         {{item}}
       </mat-panel-title>
       <mat-panel-description [style.justify-content]="'flex-end'">
-        <button mat-icon-button [style.color]="'red'" (click)="$event.stopPropagation()">
+        <button mat-icon-button [style.color]="'red'" (click)="$event.stopPropagation(); delete(entityName, data._id)">
           <mat-icon>delete</mat-icon>
         </button>
       </mat-panel-description>
@@ -40,14 +40,14 @@
 </ng-template>
 
 <ng-template #professorTemplate let-entity="entity" let-entityName="entityName" let-panel="panel">
-  <app-professor (submitted)="entities.professor.add($event)"
+  <app-professor (submitted)="addProfessor($event, entity ? true : false)"
     (finished)="entity ? panel.toggle() : entities[entityName].switch = !entities[entityName].switch" [user]="entity ||
     null">
   </app-professor>
 </ng-template>
 
 <ng-template #sectionTemplate let-entity="entity" let-entityName="entityName" let-panel="panel">
-  <app-section (submitted)="entities.section.add($event)"
+  <app-section (submitted)="addSection($event, entity ? true : false)"
     (finished)="entity ? panel.toggle() : entities[entityName].switch = !entities[entityName].switch"
     [section]="entity || null">
   </app-section>

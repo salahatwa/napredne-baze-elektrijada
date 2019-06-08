@@ -34,6 +34,14 @@ export class UserForm extends FormComponent<IUser> implements OnInit {
 
   submit() {
     super.submit()
-    this.submitted.emit(this.userForm.value)
+    const user = this.userForm.value
+    const base64 = user.imageURL
+    delete user.imageURL
+
+    this.submitted.emit({
+      ...this.userForm.value,
+      imageBase64: base64,
+      _id: this.user ? this.user._id : undefined,
+    })
   }
 }
