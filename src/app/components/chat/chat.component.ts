@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector } from '@angular/core'
+import { Component, OnInit, Injector, OnDestroy } from '@angular/core'
 import { Router, ActivatedRoute } from '@angular/router'
 import { Chat } from './chat'
 import { IChatSession } from 'src/app/models/IChatSession'
@@ -9,9 +9,9 @@ import { IUser } from 'src/app/models/user.interface'
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
-export class ChatComponent extends Chat implements OnInit {
+export class ChatComponent extends Chat implements OnInit, OnDestroy {
   public receiver: IUser
-  constructor(private route: ActivatedRoute, private injector: Injector) {
+  constructor(private route: ActivatedRoute, injector: Injector) {
     super(injector)
   }
 
@@ -39,10 +39,11 @@ export class ChatComponent extends Chat implements OnInit {
         this.receiver = res.user
         this.receiverId = this.receiver._id
         this.session = res.session
-        this.session.messages = res.data.docs
-        this.totalMessages = res.data.total
         if (!this.session) {
           this.createTmpSession()
+        } else {
+          this.session.messages = res.data.docs
+          this.totalMessages = res.data.total
         }
 
         // this.updateScroll(null, true)

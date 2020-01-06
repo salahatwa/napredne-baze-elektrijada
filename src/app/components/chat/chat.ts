@@ -9,12 +9,13 @@ import { ISocketEvent, SocketService } from 'src/app/services/socket.service'
 import { SocketEventTypes } from 'src/app/constants/socket-event-types'
 import { IChatMessage } from 'src/app/models/IChatMessage'
 import { IChatSession } from 'src/app/models/IChatSession'
-import { Injector, OnInit } from '@angular/core'
+import { Injector, OnInit, OnDestroy } from '@angular/core'
 import { Keys } from 'src/app/models/keyboard-keys.enum'
 import { AuthService } from 'src/app/services/auth/auth.service'
 import { ChatService } from 'src/app/services/chat.service'
 import { filter } from 'rxjs/operators'
 import { ObservableListener } from 'src/app/models/ObservableListener'
+import * as moment from 'moment'
 
 export interface IMaintainScroll {
   chatContainer: HTMLElement
@@ -22,7 +23,7 @@ export interface IMaintainScroll {
 }
 
 const MAX_NUMBER_OF_FILES = 4
-export class Chat extends ObservableListener implements OnInit {
+export class Chat extends ObservableListener implements OnInit, OnDestroy {
   firstTimeScroll = true
   scrollForImages = true // slike koje se ucitavaju posle load more ne treba da skroluju
   isMobile = false
@@ -47,9 +48,9 @@ export class Chat extends ObservableListener implements OnInit {
     binary: FileList
     base64: string[]
   } = {
-    binary: null,
-    base64: [],
-  }
+      binary: null,
+      base64: [],
+    }
   protected chatService: ChatService
   protected authService: AuthService
   protected socketService: SocketService
@@ -116,7 +117,7 @@ export class Chat extends ObservableListener implements OnInit {
       ref: this.newMessageReference,
       filesBase64: this.files.base64,
       session: this.session._id,
-      createdAt: this.createBackendDate(),
+      createdAt: moment().format('YYYY-MM-DD HH:mm:ss'),
     } as IChatMessage
 
     this.updateScroll(() => {
@@ -129,21 +130,6 @@ export class Chat extends ObservableListener implements OnInit {
 
     this.chatService.sentPrivateMessage(message, receiverId).subscribe()
     this.inputValue = ''
-  }
-
-  createBackendDate(): string {
-    const now = new Date()
-    const transformToTwoDigits = value => {
-      return value / 10 < 1 ? `0${value}` : value
-    }
-    const ret = `${now.getFullYear()}-${transformToTwoDigits(
-      now.getMonth() + 1
-    )}-${transformToTwoDigits(now.getDate())} ${transformToTwoDigits(
-      now.getHours()
-    )}:${transformToTwoDigits(now.getMinutes())}:${transformToTwoDigits(
-      now.getSeconds()
-    )}`
-    return ret
   }
 
   get newMessageReference(): string {
@@ -208,7 +194,6 @@ export class Chat extends ObservableListener implements OnInit {
             sessionsCount: number
           }>
         ) => {
-          console.log('ovde')
           if (!this.session._id) {
             const myIds = [this.userId, this.receiverId]
             if (
@@ -255,7 +240,7 @@ export class Chat extends ObservableListener implements OnInit {
       Promise.all(promises).then(values => {
         this.files.base64.push(...values)
         this.sendMessage(this.receiverId)
-        ;(event.target as any).value = ''
+          ; (event.target as any).value = ''
       })
     } else {
       alert(`Maksimalan broj slika: ${MAX_NUMBER_OF_FILES}`)
