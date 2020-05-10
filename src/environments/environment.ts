@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  API_ENDPOINT: 'http://localhost:3005/api/',
-  SOCKET_URL: 'http://localhost:3005',
-}
+  API_ENDPOINT: "https://api.nap-baze.xyz/api/",
+  SOCKET_URL: "https://api.nap-baze.xyz",
+};
 
 /*
  * For easier debugging in development mode, you can import the following file

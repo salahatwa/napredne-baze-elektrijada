@@ -1,21 +1,26 @@
-import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
-import { environment } from 'src/environments/environment'
-import { IUserProfile } from '../models/IUserProfile'
-import { IUser } from '../models/user.interface'
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "src/environments/environment";
+import { IUserProfile } from "../models/IUserProfile";
+import { IUser } from "../models/user.interface";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class UserService {
-  public route = 'user/'
+  public route = "users/";
   constructor(private http: HttpClient) {}
 
   getUserProfile(userId: string) {
-    return this.http.get<IUserProfile>(environment.API_ENDPOINT + this.route + userId)
+    return this.http.get<IUserProfile>(
+      environment.API_ENDPOINT + this.route + userId
+    );
   }
 
   updateUserProfile(user: IUser) {
-    return this.http.put<IUser>(environment.API_ENDPOINT + this.route + user._id, user)
+    return this.http.put<IUser>(
+      environment.API_ENDPOINT + this.route + user._id,
+      user
+    );
   }
 }
