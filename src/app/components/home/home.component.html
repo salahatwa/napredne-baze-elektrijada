@@ -1,12 +1,16 @@
 <div class="container" fxLayout="row" fxLayoutGap="24px">
-  <mat-card fxFlex="0 0 calc(25% - 24px)" class="section" *ngFor="let section of sections"
-    [routerLink]="['/section', section.name]">
+  <mat-card
+    fxFlex="0 0 calc(25% - 24px)"
+    class="section"
+    *ngFor="let section of sections"
+    [routerLink]="['/section', section._id]"
+  >
     <mat-card-header>
       <mat-card-title>
-        {{section.name}}
+        {{ section.name }}
       </mat-card-title>
     </mat-card-header>
-    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+    <img mat-card-image [src]="section.imageURL" alt="Photo of a Shiba Inu" />
   </mat-card>
 </div>
 <!-- <button mat-raised-button (click)="logout()">Logout</button> -->

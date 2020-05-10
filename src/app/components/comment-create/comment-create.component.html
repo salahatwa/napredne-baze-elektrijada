@@ -3,26 +3,48 @@
   <div fxLayout="row" fxLayoutAlign="space-between">
     <mat-form-field class="textarea-field" fxFlex="78" appearance="outline">
       <mat-label>Add a comment</mat-label>
-      <textarea matInput [(ngModel)]="text" type="text" name="text" appFreeInput><div>nesto</div></textarea>
+      <textarea
+        matInput
+        [(ngModel)]="text"
+        type="text"
+        name="text"
+        appFreeInput
+      ></textarea>
     </mat-form-field>
     <div fxLayout="column" fxLayoutAlign="space-around">
-      <button *ngIf="!imageURL" mat-raised-button color="primary" type="button"
-        (click)="imagePicker.openFileExplorer()"> Add Image
+      <button
+        *ngIf="!imageURL"
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="imagePicker.openFileExplorer()"
+      >
+        Add Image
       </button>
-      <button mat-raised-button color="primary" [disabled]="!text && !imageURL">Post</button>
+      <button mat-raised-button color="primary" [disabled]="!text && !imageURL">
+        Post
+      </button>
     </div>
   </div>
 </form>
 
-<app-image-picker #imagePicker (fileChanged)="imageURL = $event" [style.display]="'none'"></app-image-picker>
+<app-image-picker
+  #imagePicker
+  (fileChanged)="imageURL = $event"
+  [style.display]="'none'"
+></app-image-picker>
 
 <ng-template #img>
   <div class="comment-img">
     <div class="overlay">
-      <button class="absolute-full-center" mat-icon-button (click)="imageURL = null">
+      <button
+        class="absolute-full-center"
+        mat-icon-button
+        (click)="imageURL = null"
+      >
         <mat-icon>close</mat-icon>
       </button>
     </div>
-    <img [src]="imageURL">
+    <img [src]="imageURL" />
   </div>
 </ng-template>

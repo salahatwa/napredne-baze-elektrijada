@@ -1,5 +1,5 @@
 export enum PostTypes {
-  POST = 'post',
-  EVENT = 'event',
-  NONE = 'none',
+  POST = "TextPost",
+  EVENT = "EventPost",
+  NONE = "none",
 }

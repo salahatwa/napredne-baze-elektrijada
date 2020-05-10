@@ -1,17 +1,23 @@
-import { Component, OnInit } from '@angular/core'
-import { ISection } from 'src/app/models/ISection'
+import { SectionService } from "src/app/services/section.service";
+import { Component, OnInit } from "@angular/core";
+import { ISection } from "src/app/models/ISection";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
-  sections: ISection[] = Array.from({ length: 30 }, (v, i) => ({
-    name: `Section ${i + 1}`,
-    imageURL: null
-  }))
-  constructor() {}
+  sections: ISection[] = [];
+  constructor(private sectionService: SectionService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.loadSections();
+  }
+
+  loadSections() {
+    this.sectionService.getSections().subscribe((sections) => {
+      this.sections = sections;
+    });
+  }
 }

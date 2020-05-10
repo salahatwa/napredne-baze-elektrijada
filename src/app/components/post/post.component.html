@@ -1,63 +1,99 @@
 <mat-card>
   <div class="card-header" fxLayout="row" fxLayoutGap="12px">
-    <img hoverable class="comment-avatar" width="48px" [src]="post.user.imageURL || 'assets/images/avatar.png'" />
-    <div hoverable>{{post.user.name || post.user.username}}</div>
+    <img
+      hoverable
+      class="comment-avatar"
+      width="48px"
+      [src]="post.user.imageURL || 'assets/images/avatar.png'"
+    />
+    <div hoverable>{{ post.user.name || post.user.username }}</div>
     <span fxFlex="1 1 auto"></span>
     <!--SPACER-->
-    <ng-container *ngTemplateOutlet="postMenu; context: {post: post}"></ng-container>
+    <ng-container
+      *ngTemplateOutlet="postMenu; context: { post: post }"
+    ></ng-container>
   </div>
-  <mat-card-title>{{post.title}}</mat-card-title>
+  <mat-card-title>{{ post.title }}</mat-card-title>
   <mat-card-content>
     <div fxLayout="column" fxLayoutAlign="center center" *ngIf="isEvent">
-      <div class="event-time">{{eventTime(true)}}</div>
+      <div class="event-time">{{ event.startsAt }}</div>
       <div fxFlex="10px" class="circle"></div>
       <div fxFlex="80px" class="vertical-line"></div>
       <div fxFlex="10px" class="circle"></div>
-      <div class="event-time">{{eventTime(false)}}</div>
+      <div class="event-time">{{ event.endsAt }}</div>
     </div>
     <div class="text">
-      {{post.text}}
+      {{ post.text }}
     </div>
     <div class="date">
-      {{post.createdAt}}
+      {{ post.createdAt }}
     </div>
     <hr />
-    <h5 [style.font-weight]="'bold'">Komentari({{post.comments.length}})</h5>
+    <h5 [style.font-weight]="'bold'">Komentari({{ post.comments.length }})</h5>
     <app-comment-create (submitted)="addComment($event)"></app-comment-create>
     <div class="comment" *ngFor="let comment of post.comments">
       <div fxLayout="row" fxLayoutGap="12px">
         <div fxFlex="0 0 auto">
-          <img hoverable class="comment-avatar" [src]="comment.user.imageURL || 'assets/images/avatar.png'"
-            width="28px" />
+          <img
+            hoverable
+            class="comment-avatar"
+            [src]="comment.user.imageURL || 'assets/images/avatar.png'"
+            width="28px"
+          />
         </div>
-        <div fxFlex="0 1 auto" class="comment-content" [class.content-both]="comment.text && comment.imageURL">
-          <div class="comment-owner" fxLayout="row" fxLayoutAlign="space-between center">
-            <div hoverable>{{comment.user.name || comment.user.username}}</div>
-            <ng-container *ngTemplateOutlet="commentMenu; context: {comment: comment}"></ng-container>
+        <div
+          fxFlex="0 1 auto"
+          class="comment-content"
+          [class.content-both]="comment.text && comment.imageURL"
+        >
+          <div
+            class="comment-owner"
+            fxLayout="row"
+            fxLayoutAlign="space-between center"
+          >
+            <div hoverable>
+              {{ comment.user.name || comment.user.username }}
+            </div>
+            <ng-container
+              *ngTemplateOutlet="commentMenu; context: { comment: comment }"
+            ></ng-container>
           </div>
-          <ng-container *ngTemplateOutlet="comment.text && textComment; context: {text: comment.text}">
+          <ng-container
+            *ngTemplateOutlet="
+              comment.text && textComment;
+              context: { text: comment.text }
+            "
+          >
           </ng-container>
-          <ng-container *ngTemplateOutlet="comment.imageURL && imgComment; context: {comment: comment}">
+          <ng-container
+            *ngTemplateOutlet="
+              comment.imageURL && imgComment;
+              context: { comment: comment }
+            "
+          >
           </ng-container>
-          <div class="date">{{comment.createdAt}}</div>
+          <div class="date">{{ comment.createdAt }}</div>
         </div>
       </div>
     </div>
   </mat-card-content>
 </mat-card>
 
-
 <ng-template #textComment let-text="text">
-  <div>{{text}}</div>
+  <div>{{ text }}</div>
 </ng-template>
 
 <ng-template #imgComment let-comment="comment">
-  <img class="comment-img" [class.comment-img-with-text]="comment.text && comment.imageURL" [src]="comment.imageURL">
+  <img
+    class="comment-img"
+    [class.comment-img-with-text]="comment.text && comment.imageURL"
+    [src]="comment.imageURL"
+  />
 </ng-template>
 
-
 <ng-template #commentMenu let-comment="comment">
-  <div><button mat-icon-button [matMenuTriggerFor]="appMenu">
+  <div>
+    <button mat-icon-button [matMenuTriggerFor]="appMenu">
       <mat-icon>more_horiz</mat-icon>
     </button>
     <mat-menu #appMenu="matMenu">
@@ -70,7 +106,8 @@
 </ng-template>
 
 <ng-template #postMenu let-post="post">
-  <div><button mat-icon-button [matMenuTriggerFor]="appMenu">
+  <div>
+    <button mat-icon-button [matMenuTriggerFor]="appMenu">
       <mat-icon>more_horiz</mat-icon>
     </button>
     <mat-menu #appMenu="matMenu">

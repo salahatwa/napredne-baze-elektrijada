@@ -1,18 +1,17 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-import { IPost } from 'src/app/models/IPost'
-import * as faker from 'faker'
-import { IComment } from 'src/app/models/IComment'
-import { IEvent } from 'src/app/models/IEvent'
-import * as moment from 'moment'
-import { transformDateNumber } from '../../common'
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { IPost } from "src/app/models/IPost";
+import * as faker from "faker";
+import { IComment } from "src/app/models/IComment";
+import { IEvent } from "src/app/models/IEvent";
+import { PostService } from "src/app/services/post.service";
 
 @Component({
-  selector: 'app-post',
-  templateUrl: './post.component.html',
-  styleUrls: ['./post.component.scss'],
+  selector: "app-post",
+  templateUrl: "./post.component.html",
+  styleUrls: ["./post.component.scss"],
 })
 export class PostComponent implements OnInit {
-  @Output() postRemoved = new EventEmitter<IPost>()
+  @Output() postRemoved = new EventEmitter<IPost>();
 
   @Input() post: IPost = {
     _id: faker.random.uuid(),
@@ -29,43 +28,33 @@ export class PostComponent implements OnInit {
         text: faker.lorem.paragraph(),
         user: { name: faker.name.findName(), imageURL: faker.image.avatar() },
         imageURL: i % 2 === 0 ? faker.image.cats() : null,
-      } as IComment
+      } as IComment;
     }),
     createdAt: faker.date.recent().toDateString(),
-  }
+  };
 
-  event: IEvent
+  event: IEvent;
 
-  constructor() {}
+  constructor(private postService: PostService) {}
 
   ngOnInit() {
-    this.event = this.post as IEvent // for sake of recommendations
-    console.log()
+    this.event = this.post as IEvent; // for sake of recommendations
   }
 
   addComment(comment: IComment) {
-    this.post.comments.push(comment)
+    this.postService.addComment(this.post._id, comment).subscribe((comment) => {
+      this.post.comments = [...this.post.comments, comment];
+    });
   }
 
   removeComment(comment: IComment) {
-    this.post.comments = this.post.comments.filter(com => com !== comment)
+    this.post.comments = this.post.comments.filter((com) => com !== comment);
   }
 
   get isEvent() {
-    if ((this.post as IEvent).startDate) {
-      return true
+    if ((this.post as IEvent).startsAt) {
+      return true;
     }
-    return false
-  }
-
-  eventTime(start: boolean) {
-    const { startDate, startTime, endDate, endTime } = this.event
-    const date = start ? startDate : endDate
-    const time = start ? startTime : endTime
-    return moment(
-      `${date.get('year')}-${date.get('month') + 1}-${date.get('date')} ${time.hour}:${
-        time.minute
-      }`
-    ).format('ddd Do MMM h:mm:ss a')
+    return false;
   }
 }

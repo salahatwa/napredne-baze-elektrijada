@@ -15,6 +15,12 @@ export class SectionService {
     return this.http.get<ISection[]>(environment.API_ENDPOINT + this.route);
   }
 
+  getSectionById(sectionId: string) {
+    return this.http.get<ISection>(
+      `${environment.API_ENDPOINT}${this.route}${sectionId}`
+    );
+  }
+
   createSection(section: ISection) {
     return this.http.post<ISection>(
       environment.API_ENDPOINT + this.route,

@@ -1,27 +1,44 @@
 <!-- <div>{{section.name}}</div> -->
 <div class="container">
   <!-- <app-post-create></app-post-create> -->
-  <div *ngIf="creatingAtm === postTypes.NONE else form">
+  <div *ngIf="creatingAtm === postTypes.NONE; else form">
     <h4 class="mat-h4 gray-text text-center">Create</h4>
-    <div fxLayout="row" fxLayoutAlign="space-around" class="create-options mat-elevation-z1">
-      <button mat-raised-button color="primary" (click)="creatingAtm = postTypes.EVENT">
+    <div
+      fxLayout="row"
+      fxLayoutAlign="space-around"
+      class="create-options mat-elevation-z1"
+    >
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="creatingAtm = postTypes.EVENT"
+      >
         Event&nbsp;<mat-icon>event</mat-icon>
       </button>
       <h4 class="mat-h4 or">or</h4>
-      <button mat-raised-button color="primary" (click)="creatingAtm = postTypes.POST">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="creatingAtm = postTypes.POST"
+      >
         Post&nbsp;<mat-icon>forum</mat-icon>
       </button>
     </div>
   </div>
   <ng-template #form>
     <div class="form">
-      <app-post-create (submitted)="addPost($event)" (finished)="creatingAtm = postTypes.NONE" [postType]="creatingAtm">
+      <app-post-create
+        (submitted)="addPost($event)"
+        (finished)="creatingAtm = postTypes.NONE"
+        [postType]="creatingAtm"
+      >
       </app-post-create>
     </div>
   </ng-template>
-  <app-post *ngFor="let post of posts" [post]="post" (postRemoved)="removePost($event)">
+  <app-post
+    *ngFor="let post of posts"
+    [post]="post"
+    (postRemoved)="removePost($event)"
+  >
   </app-post>
-  <app-post>
-  </app-post>
-
 </div>

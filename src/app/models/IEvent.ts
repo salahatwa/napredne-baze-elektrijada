@@ -1,19 +1,19 @@
-import { IPost } from './IPost'
-import { Moment } from 'moment'
+import { IPost } from "./IPost";
+import { Moment } from "moment";
 
 export interface IEvent extends IPost {
-  startDate: Moment
+  startsAt: Moment;
   startTime: {
-    hour: string
-    minute: string
-    second: string
-  }
-  endDate: Moment
+    hour: string;
+    minute: string;
+    second: string;
+  };
+  endsAt: Moment;
   endTime: {
-    hour: string
-    minute: string
-    second: string
-  }
+    hour: string;
+    minute: string;
+    second: string;
+  };
   // startsAt: Date
   // endsAt: Date
 }
