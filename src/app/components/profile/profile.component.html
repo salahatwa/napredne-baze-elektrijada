@@ -1,45 +1,61 @@
 <div class="container">
   <h1>Profile</h1>
-  <div fxLayout='row' fxLayoutGap="24px" fxLayoutALign="center center">
+  <div fxLayout="row" fxLayoutGap="24px" fxLayoutALign="center center">
     <div fxFlex="30" [style.text-align]="'center'">
       <div>
-        <app-image-picker [imgClasses]="'profile'" [defaultImg]="'assets/images/avatar.png'"
-          (fileChanged)="userForm.patchValue({imageURL: $event})">
+        <app-image-picker
+          [imgClasses]="'profile'"
+          [defaultImg]="'assets/images/avatar.png'"
+          (fileChanged)="updateImage($event)"
+        >
         </app-image-picker>
         <!-- <img src="assets/images/avatar.png" width="100%"> -->
         <small>Click on the image to change it</small>
-        <button *ngIf="!itsMe" mat-raised-button color="primary" [style.margin]="'12px 0'">
+        <button
+          *ngIf="!itsMe"
+          mat-raised-button
+          color="primary"
+          [style.margin]="'12px 0'"
+        >
           <mat-icon>person_add</mat-icon>&nbsp;Add Friend
         </button>
       </div>
     </div>
     <div fxFlex="70">
-      <form #form="ngForm" [formGroup]="userForm">
+      <form
+        #form="ngForm"
+        [class.preview]="!itsMe && !isAdmin"
+        [formGroup]="userForm"
+      >
         <mat-form-field appearance="outline">
           <mat-label>Name</mat-label>
-          <input matInput formControlName="name" type="text">
+          <input matInput formControlName="name" type="text" />
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>username</mat-label>
-          <input matInput formControlName="username" type="text">
+          <input matInput formControlName="username" type="text" />
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>email</mat-label>
-          <input matInput formControlName="email" type="email">
+          <input matInput formControlName="email" type="email" />
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>User Role</mat-label>
           <mat-select formControlName="roles" multiple>
             <mat-option *ngFor="let role of rolesList" [value]="role">
-              {{role}}
+              {{ role }}
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <div *ngIf="itsMe && form.dirty" fxLayout="row" fxLayoutAlign="space-around center">
-          <button mat-raised-button type="button" (click)="resetInitialForm()">Cancel
+        <div
+          *ngIf="(itsMe || isAdmin) && form.dirty"
+          fxLayout="row"
+          fxLayoutAlign="space-around center"
+        >
+          <button mat-raised-button type="button" (click)="resetInitialForm()">
+            Cancel
           </button>
-          <button mat-raised-button color="primary">Save
-          </button>
+          <button mat-raised-button color="primary">Save</button>
         </div>
       </form>
     </div>

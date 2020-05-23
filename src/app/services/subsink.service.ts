@@ -3,15 +3,15 @@ import { Subscription } from 'rxjs';
 
 @Injectable()
 export class SubsinkService implements OnDestroy {
-  subs: Array<Subscription> = [];
+  private _subs: Array<Subscription> = [];
 
   constructor() {}
 
   add(...subscriptions: Subscription[]) {
-    this.subs.push(...subscriptions);
+    this._subs.push(...subscriptions);
   }
 
   ngOnDestroy(): void {
-    this.subs.forEach((sub) => sub.unsubscribe());
+    this._subs.forEach((sub) => sub.unsubscribe());
   }
 }

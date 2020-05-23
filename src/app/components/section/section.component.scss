@@ -9,7 +9,6 @@
   align-self: center;
 }
 
-
 .create-options {
   padding: 16px 0;
   border-radius: 4px;
@@ -24,4 +23,10 @@
 .form {
   width: 60%;
   margin: auto;
+}
+
+.empty-state {
+  color: gray;
+  text-align: center;
+  margin-top: 32px;
 }

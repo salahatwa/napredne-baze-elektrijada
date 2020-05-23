@@ -1,6 +1,4 @@
-<!-- <div>{{section.name}}</div> -->
 <div class="container">
-  <!-- <app-post-create></app-post-create> -->
   <div *ngIf="creatingAtm === postTypes.NONE; else form">
     <h4 class="mat-h4 gray-text text-center">Create</h4>
     <div
@@ -35,6 +33,9 @@
       </app-post-create>
     </div>
   </ng-template>
+  <div class="empty-state" *ngIf="!posts.length">
+    There are currently no posts inside this section.
+  </div>
   <app-post
     *ngFor="let post of posts"
     [post]="post"

@@ -1,3 +1,5 @@
+@import '../../../scss/settings';
+
 mat-card {
   width: 60%;
   margin: 24px auto;
@@ -26,12 +28,17 @@ mat-card {
   font-size: 11px;
   font-weight: bold;
   text-align: right;
+  color: gray;
 }
 
 .comment {
-  margin: 6px 0;
-  font-size: 12px;
-  color: gray;
+  margin: 12px 0;
+  @include font-size(14px, 16px);
+  color: #212121;
+
+  &__content {
+    margin: 6px 0;
+  }
 }
 
 .comment-avatar {
@@ -40,6 +47,7 @@ mat-card {
 }
 
 .comment-owner {
+  height: 40px;
   font-weight: bold;
   color: #212121;
   margin-bottom: 6px;
@@ -57,8 +65,8 @@ mat-card {
   border-radius: 6px;
   border: solid 1px lightgray;
   max-width: 80%;
+  min-width: 60%;
 }
-
 
 .comment-img {
   max-width: calc(100% + 12px);
@@ -67,7 +75,6 @@ mat-card {
   margin-right: -6px;
   cursor: pointer;
 }
-
 
 .comment-img-with-text {
   max-width: 100%;
@@ -92,7 +99,6 @@ mat-card {
   border-radius: 50%;
   background-color: #212121;
 }
-
 
 .event-time {
   color: #212121;

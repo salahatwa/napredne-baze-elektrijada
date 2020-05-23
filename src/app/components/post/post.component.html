@@ -10,23 +10,26 @@
     <span fxFlex="1 1 auto"></span>
     <!--SPACER-->
     <ng-container
-      *ngTemplateOutlet="postMenu; context: { post: post }"
+      *ngTemplateOutlet="
+        (isAdmin || currentUser._id === post.user?._id) && postMenu;
+        context: { post: post }
+      "
     ></ng-container>
   </div>
   <mat-card-title>{{ post.title }}</mat-card-title>
   <mat-card-content>
     <div fxLayout="column" fxLayoutAlign="center center" *ngIf="isEvent">
-      <div class="event-time">{{ event.startsAt }}</div>
+      <div class="event-time">{{ event.startsAt | date: 'short' }}</div>
       <div fxFlex="10px" class="circle"></div>
       <div fxFlex="80px" class="vertical-line"></div>
       <div fxFlex="10px" class="circle"></div>
-      <div class="event-time">{{ event.endsAt }}</div>
+      <div class="event-time">{{ event.endsAt | date: 'short' }}</div>
     </div>
     <div class="text">
       {{ post.text }}
     </div>
     <div class="date">
-      {{ post.createdAt }}
+      {{ post.createdAt | date: 'short' }}
     </div>
     <hr />
     <h5 [style.font-weight]="'bold'">Komentari({{ post.comments.length }})</h5>
@@ -39,6 +42,7 @@
             class="comment-avatar"
             [src]="comment.user.imageURL || 'assets/images/avatar.png'"
             width="28px"
+            [routerLink]="['/profile', comment.user._id]"
           />
         </div>
         <div
@@ -51,11 +55,15 @@
             fxLayout="row"
             fxLayoutAlign="space-between center"
           >
-            <div hoverable>
+            <div hoverable [routerLink]="['/profile', comment.user._id]">
               {{ comment.user.name || comment.user.username }}
             </div>
             <ng-container
-              *ngTemplateOutlet="commentMenu; context: { comment: comment }"
+              *ngTemplateOutlet="
+                (isAdmin || currentUser._id === comment.user._id) &&
+                  commentMenu;
+                context: { comment: comment }
+              "
             ></ng-container>
           </div>
           <ng-container
@@ -72,7 +80,7 @@
             "
           >
           </ng-container>
-          <div class="date">{{ comment.createdAt }}</div>
+          <div class="date">{{ comment.createdAt | date: 'short' }}</div>
         </div>
       </div>
     </div>
@@ -80,7 +88,7 @@
 </mat-card>
 
 <ng-template #textComment let-text="text">
-  <div>{{ text }}</div>
+  <div class="comment__content">{{ text }}</div>
 </ng-template>
 
 <ng-template #imgComment let-comment="comment">
