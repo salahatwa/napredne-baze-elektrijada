@@ -13,11 +13,11 @@ import { PostCreateComponent } from "./components/post-create/post-create.compon
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { FreeInputDirective } from "./directives/free-input.directive";
 import { ProfileComponent } from "./components/profile/profile.component";
-import { ChatComponent } from "./components/chat/chat.component";
 import { PostComponent } from "./components/post/post.component";
 import { CommentCreateComponent } from "./components/comment-create/comment-create.component";
 import { FormsModule } from "@angular/forms";
 import { RequestHttpInterceptor as HttpApiInterceptor } from "./interceptors/http-api-interceptor";
+import { ChatModule } from './chat/chat.module';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,6 @@ import { RequestHttpInterceptor as HttpApiInterceptor } from "./interceptors/htt
     NavbarComponent,
     FreeInputDirective,
     ProfileComponent,
-    ChatComponent,
     PostComponent,
     CommentCreateComponent,
   ],
@@ -39,6 +38,7 @@ import { RequestHttpInterceptor as HttpApiInterceptor } from "./interceptors/htt
     HttpClientModule,
     AppRoutingModule,
     SharedModule,
+    ChatModule,
   ],
   providers: [
     {

@@ -1,0 +1,20 @@
+<textarea
+  #textarea
+  [ngStyle]="{
+    'font-size': fontSize,
+    'line-height': lineHeight,
+    padding: paddingString,
+    height: height,
+    'max-height': maxHeight + 'px'
+  }"
+  name="text"
+  [value]="value"
+  [ngModel]="value"
+  (ngModelChange)="onChange($event)"
+  (keydown)="onKeyDown($event)"
+  [spellcheck]="false"
+  autocomplete="false"
+  [placeholder]="placeholder"
+  rows="1"
+  className="chat__input"
+></textarea>

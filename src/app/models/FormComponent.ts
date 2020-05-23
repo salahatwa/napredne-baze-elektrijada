@@ -5,7 +5,7 @@ export class FormComponent<T> {
   @Output() submitted = new EventEmitter<T>()
 
   submit() {
-    this.finished.emit()
+    this.submitted.emit()
   }
 
   cancel() {

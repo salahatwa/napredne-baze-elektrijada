@@ -90,7 +90,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   addSection(section: ISection, editing: boolean) {
-    console.log('here');
     if (editing) {
       this.sectionService
         .updateSection(section)

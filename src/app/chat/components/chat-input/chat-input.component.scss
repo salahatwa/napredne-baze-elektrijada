@@ -1,0 +1,21 @@
+:host {
+  width: 100%;
+  textarea {
+    font: inherit;
+    border-radius: 5px;
+    width: 100%;
+    color: inherit;
+    resize: none;
+    overflow: hidden;
+    border: none;
+    margin: 0;
+    &:focus {
+      outline: none;
+    }
+
+    &::-webkit-input-placeholder {
+      color: inherit;
+      opacity: 0.6;
+    }
+  }
+}
