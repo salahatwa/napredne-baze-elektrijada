@@ -26,6 +26,12 @@ const routes: Routes = [
     canLoad: [IsAdminGuard],
   },
   {
+    path: 'groups',
+    loadChildren: () =>
+      import('./groups/groups.module').then((m) => m.GroupsModule),
+    canLoad: [AuthGuard],
+  },
+  {
     path: 'section/:id',
     component: SectionComponent,
   },

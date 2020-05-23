@@ -1,11 +1,28 @@
 <nav class="navbar-header" fxLayout="row wrap">
   <button mat-button (click)="home()">Elektrijada</button>
-  <span fxFlex="1 1 auto"></span> <!-- spacer -->
-  <button mat-button *ngIf="isAdmin" [routerLink]="['admin','dashboard']" [routerLinkActive]="'route-active'">
+  <span fxFlex="1 1 auto"></span>
+  <!-- spacer -->
+  <button
+    mat-button
+    *ngIf="isAdmin"
+    [routerLink]="['admin', 'dashboard']"
+    [routerLinkActive]="'route-active'"
+  >
     <mat-icon>dashboard</mat-icon>DashBoard
   </button>
-  <button mat-button [routerLink]="['profile', user._id]" [routerLinkActive]="'route-active'">
-    <mat-icon>person</mat-icon>{{user.username}}
+  <button
+    mat-button
+    [routerLink]="['groups']"
+    [routerLinkActive]="'route-active'"
+  >
+    <mat-icon>groups</mat-icon>Groups
+  </button>
+  <button
+    mat-button
+    [routerLink]="['profile', user._id]"
+    [routerLinkActive]="'route-active'"
+  >
+    <mat-icon>person</mat-icon>{{ user.username }}
   </button>
   <button mat-button (click)="logout()">
     <mat-icon>lock_open</mat-icon>Logout

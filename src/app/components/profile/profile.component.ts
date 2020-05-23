@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild } from '@angular/core';
 import { Roles } from 'src/app/services/auth/roles.enum';
 import { UserForm } from 'src/app/models/UserFormComponent';
 import { ActivatedRoute } from '@angular/router';
@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { switchMap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { SubsinkService } from 'src/app/services/subsink.service';
+import { ImagePickerComponent } from 'src/app/feature-modules/shared/components/image-picker/image-picker.component';
 
 @Component({
   selector: 'app-profile',
@@ -17,6 +18,9 @@ export class ProfileComponent extends UserForm implements OnInit {
   itsMe: boolean;
   isAdmin: boolean;
   rolesList = Object.keys(Roles).map((key) => Roles[key]);
+
+  @ViewChild(ImagePickerComponent, { static: true })
+  imagePicker: ImagePickerComponent;
 
   constructor(
     injector: Injector,
@@ -43,6 +47,7 @@ export class ProfileComponent extends UserForm implements OnInit {
 
   resetInitialForm() {
     this.userForm.reset(this.user);
+    this.imagePicker.reset();
   }
 
   updateImage(base64: string) {
