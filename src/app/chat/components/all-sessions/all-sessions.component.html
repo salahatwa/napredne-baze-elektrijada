@@ -1,0 +1,16 @@
+<ul>
+  <li *ngFor="let session of sessions$ | async" (click)="select.emit(session)">
+    <div
+      class="avatars"
+      [class.avatars--group]="session.participants.length >= 2"
+    >
+      <div
+        class="avatar-wrapper"
+        *ngFor="let participant of getLastTwoParticipant(session)"
+      >
+        <img [src]="participant.imageURL" />
+      </div>
+    </div>
+    <div></div>
+  </li>
+</ul>

@@ -42,7 +42,7 @@ import {
   ],
 })
 export class ChatComponent implements OnInit {
-  isOpen = false;
+  isOpen = true;
   receiverId: string;
   loadingMsgs = false;
   totalMessages: number;
@@ -66,7 +66,6 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.socketService.initSocket();
-    this.initReceiver();
   }
 
   getDistance() {
@@ -95,24 +94,6 @@ export class ChatComponent implements OnInit {
     this.session = {
       messages: [],
     } as IChatSession;
-  }
-
-  initReceiver() {
-    this.route.paramMap.subscribe((paramMap) => {
-      this.receiverId = paramMap.get('id');
-      this.chatService.getSessionByUserId(this.receiverId).subscribe((res) => {
-        this.loadingMsgs = false;
-        this.receiver = res.user;
-        this.receiverId = this.receiver._id;
-        this.session = res.session;
-        if (!this.session) {
-          this.createTmpSession();
-        } else {
-          this.session.messages = res.data.docs;
-          this.totalMessages = res.data.total;
-        }
-      });
-    });
   }
 
   sendMessage() {

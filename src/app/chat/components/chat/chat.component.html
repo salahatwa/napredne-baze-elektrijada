@@ -11,40 +11,50 @@
   </button>
   <div class="chat__content" *ngIf="isOpen" [@wipe]="isOpen">
     <header>
-      <h2>Welcome to chat!</h2>
+      <button *ngIf="session" mat-icon-button (click)="session = null">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h2 *ngIf="!session">Welcome to chat!</h2>
+      <h2 *ngIf="session">You are in session</h2>
       <button mat-icon-button (click)="isOpen = false">
-        <mat-icon>minimize</mat-icon>
+        <mat-icon class="adjust">minimize</mat-icon>
       </button>
     </header>
-    <main #msgContainer>
-      <div class="chat__messages">
-        <ng-container *ngIf="loadingMsgs">
-          Loading messages..
-        </ng-container>
-        <ng-container *ngIf="session">
-          <app-message
-            *ngFor="let message of session.messages"
-            [isMine]="message.sender === userId"
-          >
-            {{ message.sender == userId ? 'Me:' : 'Them:' }}{{ message.text }}
-          </app-message>
-        </ng-container>
-      </div>
-      <div class="empty-state">Say hello!</div>
-    </main>
-    <footer>
-      <form (ngSubmit)="inputValue.trim() !== '' && sendMessage(receiverId)">
-        <app-chat-input
-          name="text"
-          (enter)="sendMessage(receiverId)"
-          [(ngModel)]="inputValue"
-        ></app-chat-input>
-        <div class="chat__actions">
-          <button mat-icon-button color="primary" type="submit">
-            <mat-icon>send</mat-icon>
-          </button>
+    <ng-container *ngIf="session">
+      <main #msgContainer>
+        <div class="chat__messages">
+          <ng-container *ngIf="loadingMsgs">
+            Loading messages..
+          </ng-container>
+          <ng-container *ngIf="session">
+            <app-message
+              *ngFor="let message of session.messages"
+              [isMine]="message.sender === userId"
+            >
+              {{ message.sender == userId ? 'Me:' : 'Them:' }}{{ message.text }}
+            </app-message>
+          </ng-container>
         </div>
-      </form>
-    </footer>
+        <div class="empty-state">Say hello!</div>
+      </main>
+      <footer>
+        <form (ngSubmit)="inputValue.trim() !== '' && sendMessage(receiverId)">
+          <app-chat-input
+            name="text"
+            (enter)="sendMessage(receiverId)"
+            [(ngModel)]="inputValue"
+          ></app-chat-input>
+          <div class="chat__actions">
+            <button mat-icon-button color="primary" type="submit">
+              <mat-icon>send</mat-icon>
+            </button>
+          </div>
+        </form>
+      </footer>
+    </ng-container>
+    <app-all-sessions
+      *ngIf="!session"
+      (select)="session = $event"
+    ></app-all-sessions>
   </div>
 </div>
