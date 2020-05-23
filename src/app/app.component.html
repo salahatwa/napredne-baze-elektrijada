@@ -4,4 +4,4 @@
   <router-outlet></router-outlet>
 </div>
 
-<app-chat></app-chat>
+<app-chat *ngIf="isAuthenticated"></app-chat>
