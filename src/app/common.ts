@@ -5,8 +5,10 @@ export function transformError(error: HttpErrorResponse | string) {
   let errorMessage = 'An unknow error has occured'
   if (typeof error === 'string') {
     errorMessage = error
-  } else if (error.error instanceof ErrorEvent) {
+  } else if (error.error) {
     errorMessage = `Error! ${error.error.message}`
+  } else if (error.message) {
+    errorMessage = `Error! ${error.message}`
   } else if (error.status) {
     errorMessage = `Request faied with ${error.status} ${error.statusText}`
   }

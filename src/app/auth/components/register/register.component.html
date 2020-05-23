@@ -1,0 +1,71 @@
+<div style="height: 100vh; background-color: #fafafa;" class="relative">
+  <div class="app-title absolute-horizontal-center">Elektrijada</div>
+  <mat-card
+    class="absolute-full-center"
+    style="width: 500px; height: 400px;"
+    fxLayout="column"
+    fxLayoutAlign="space-around"
+  >
+    <mat-card-header>
+      <mat-card-title>
+        Register
+      </mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="registrationForm" (ngSubmit)="register()">
+      <mat-card-content>
+        <mat-form-field appearance="outline" class="block">
+          <mat-icon matSuffix>person</mat-icon>
+          <input
+            formControlName="username"
+            matInput
+            placeholder="Username"
+            spellcheck="false"
+            type="username"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="block">
+          <mat-icon matSuffix>lock</mat-icon>
+          <input
+            formControlName="password"
+            matInput
+            placeholder="Password"
+            spellcheck="false"
+            type="password"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="block">
+          <mat-icon matSuffix>lock</mat-icon>
+          <input
+            formControlName="confirmPassword"
+            matInput
+            placeholder="Confirm password"
+            spellcheck="false"
+            type="password"
+          />
+        </mat-form-field>
+        <mat-error
+          *ngIf="
+            registrationForm.errors?.passwordMismatch &&
+            (registrationForm.touched || registrationForm.dirty)
+          "
+        >
+          Passwords don't match.
+        </mat-error>
+        <mat-error *ngIf="error">
+          {{ error }}
+        </mat-error>
+      </mat-card-content>
+      <mat-card-actions class="text-center">
+        <button
+          [disabled]="!registrationForm.valid"
+          mat-raised-button
+          color="primary"
+        >
+          Register
+        </button>
+      </mat-card-actions>
+    </form>
+    <a routerLink="../login">Already have an account? Login.</a>
+  </mat-card>
+</div>

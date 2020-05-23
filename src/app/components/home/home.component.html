@@ -12,5 +12,7 @@
     </mat-card-header>
     <img mat-card-image [src]="section.imageURL" alt="Photo of a Shiba Inu" />
   </mat-card>
+  <div class="empty-state" *ngIf="!sections.length">
+    There are currently no sections available
+  </div>
 </div>
-<!-- <button mat-raised-button (click)="logout()">Logout</button> -->

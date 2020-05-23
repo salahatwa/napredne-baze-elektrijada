@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core'
-import { Routes, RouterModule } from '@angular/router'
-import { LoginComponent } from './components/login/login.component'
-import { HomeComponent } from './components/home/home.component'
-import { AuthGuard } from './guards/auth.guard'
-import { LoggedGuard } from './guards/logged.guard'
-import { SectionComponent } from './components/section/section.component'
-import { ProfileComponent } from './components/profile/profile.component'
-import { IsAdminGuard } from './guards/is-admin.guard'
-import { ChatComponent } from './components/chat/chat.component'
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { LoginComponent } from './auth/components/login/login.component';
+import { HomeComponent } from './components/home/home.component';
+import { AuthGuard } from './auth/guards/auth.guard';
+import { LoggedGuard } from './auth/guards/logged.guard';
+import { SectionComponent } from './components/section/section.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { IsAdminGuard } from './auth/guards/is-admin.guard';
+import { ChatComponent } from './components/chat/chat.component';
 
 const routes: Routes = [
   {
@@ -16,14 +16,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'login',
-    component: LoginComponent,
-    canActivate: [LoggedGuard],
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+    canLoad: [LoggedGuard],
   },
   {
     path: 'admin',
     loadChildren: () =>
-      import('./feature-modules/admin/admin.module').then(m => m.AdminModule),
+      import('./feature-modules/admin/admin.module').then((m) => m.AdminModule),
     canLoad: [IsAdminGuard],
   },
   {
@@ -41,9 +41,9 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'login',
+    redirectTo: 'auth',
   },
-]
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -8,8 +8,8 @@ import {
   UrlTree,
 } from '@angular/router'
 import { Observable } from 'rxjs'
-import { AuthService } from '../services/auth/auth.service'
-import { Roles } from '../services/auth/roles.enum'
+import { AuthService } from '../../services/auth/auth.service'
+import { Roles } from '../../services/auth/roles.enum'
 
 @Injectable({
   providedIn: 'root',
