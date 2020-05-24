@@ -17,6 +17,7 @@ import {
   MatExpansionModule,
   MatToolbarModule,
   MatMenuModule,
+  MatListModule,
 } from '@angular/material'
 import {
   MomentDateAdapter,
@@ -38,6 +39,7 @@ import {
     MatToolbarModule,
     MatSelectModule,
     MatMenuModule,
+    MatListModule,
   ],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },

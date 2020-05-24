@@ -1,0 +1,46 @@
+<mat-form-field class="block" appearance="outline">
+  <mat-label>Invite</mat-label>
+  <input
+    type="text"
+    matInput
+    [(ngModel)]="value"
+    (input)="filterUsers($event.target.value)"
+    [matAutocomplete]="auto"
+  />
+  <button
+    *ngIf="optionValid"
+    mat-raised-button
+    color="primary"
+    type="button"
+    (click)="addUser($event)"
+    matSuffix
+  >
+    Add User
+  </button>
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    [displayWith]="displayFn"
+    (optionSelected)="onOptionSelected($event)"
+  >
+    <mat-option *ngFor="let option of options" [value]="option">
+      <div class="user-option" [innerHTML]="option.template"></div>
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+<div class="selected-users" *ngIf="selectedOptions?.length">
+  <h3>Selected users:</h3>
+  <mat-list>
+    <mat-list-item *ngFor="let option of selectedOptions">
+      <div class="user-option" [innerHTML]="option.template"></div>
+      <button
+        type="button"
+        mat-icon-button
+        color="warn"
+        (click)="removeUser(option)"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
+</div>

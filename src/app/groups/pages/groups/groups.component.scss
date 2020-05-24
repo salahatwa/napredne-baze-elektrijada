@@ -1,0 +1,26 @@
+@import '../../../../scss/settings';
+
+:host {
+  @include page-layout;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .empty-state {
+    display: none;
+    color: gray;
+    margin-top: 48px;
+    text-align: center;
+  }
+
+  main {
+    mat-list {
+      &:empty + .empty-state {
+        display: block;
+      }
+    }
+  }
+}

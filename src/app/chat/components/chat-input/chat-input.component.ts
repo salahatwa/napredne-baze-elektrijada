@@ -152,6 +152,7 @@ export class ChatInputComponent implements OnInit, ControlValueAccessor {
   ngOnInit() {}
 
   onKeyDown(ev: KeyboardEvent) {
+    this.onTouched();
     if (ev.key === 'Enter') {
       if (!isDeviceMobile()) {
         /** desktop environment */

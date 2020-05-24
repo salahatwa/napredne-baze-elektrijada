@@ -1,0 +1,19 @@
+<h1>Welcome to groups</h1>
+<header>
+  <h2>Groups({{ groups.length }}):</h2>
+  <button (click)="openCreateGroupDialog()" mat-raised-button color="primary">
+    Create new group
+  </button>
+</header>
+
+<main>
+  <mat-list role="list">
+    <mat-list-item *ngFor="let group of groups" role="listitem">{{
+      group.name
+    }}</mat-list-item>
+  </mat-list>
+
+  <div class="empty-state">
+    There are no groups currently. Start by creating one.
+  </div>
+</main>

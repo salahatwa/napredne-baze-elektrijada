@@ -1,0 +1,35 @@
+@import '../../../../scss/settings';
+
+:host {
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-suffix {
+    top: -0.25em;
+  }
+}
+
+.user-option {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+
+  mat-list-item & {
+    flex: 1 1 100%;
+  }
+
+  ::ng-deep > img {
+    @include size(24px);
+    @include shadow-standard;
+    margin-right: 8px;
+    border-radius: 50%;
+  }
+}
+
+.selected-users {
+  margin-bottom: 12px;
+
+  mat-list-item {
+    @include shadow-standard;
+    & + mat-list-item {
+      margin-top: 12px;
+    }
+  }
+}

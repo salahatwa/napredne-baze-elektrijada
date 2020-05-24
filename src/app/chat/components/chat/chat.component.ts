@@ -42,7 +42,7 @@ import {
   ],
 })
 export class ChatComponent implements OnInit {
-  isOpen = true;
+  isOpen = false;
   receiverId: string;
   loadingMsgs = false;
   totalMessages: number;

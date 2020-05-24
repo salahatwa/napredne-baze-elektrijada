@@ -1,0 +1,31 @@
+<form [formGroup]="groupForm" (ngSubmit)="createGroup()">
+  <header>
+    <h2>Create a group</h2>
+  </header>
+  <main>
+    <mat-form-field appearance="outline" class="block">
+      <mat-icon matSuffix>group</mat-icon>
+      <input
+        formControlName="name"
+        matInput
+        placeholder="Enter group name"
+        spellcheck="false"
+        type="text"
+      />
+    </mat-form-field>
+
+    <app-user-select formControlName="participantIds"></app-user-select>
+  </main>
+
+  <footer>
+    <button mat-button type="button" (click)="onNoClick()">Cancel</button>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="!groupForm.valid"
+    >
+      Save
+    </button>
+  </footer>
+</form>

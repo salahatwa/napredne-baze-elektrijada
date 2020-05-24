@@ -1,5 +1,16 @@
-@import "color";
-@import "variables";
-@import "breakpoints";
-@import "tools/tools";
-@import "resets";
+@import 'color';
+@import 'variables';
+@import 'breakpoints';
+@import 'tools/tools';
+@import 'resets';
+
+@mixin page-layout() {
+  display: block;
+  max-width: 760px;
+  padding: 16px;
+  margin: 0 auto;
+}
+
+@mixin shadow-standard() {
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.25);
+}
