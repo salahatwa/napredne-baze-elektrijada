@@ -20,7 +20,6 @@ export class CommentCreateComponent extends FormComponent<IComment>
   ngOnInit() {}
 
   submit() {
-    super.submit();
     const newComment = {
       imageBase64: this.imageURL,
       text: this.text,

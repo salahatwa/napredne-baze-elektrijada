@@ -28,6 +28,14 @@
               friendRequest.receiverId === myUserId
             "
           >
+          <button
+            mat-raised-button
+            color="primary"
+            [style.margin]="'12px 0'"
+            (click)="acceptFriendRequest(friendRequest._id)"
+          >
+            <mat-icon>done</mat-icon>&nbsp;Accept friend request
+          </button>
             <button
               mat-raised-button
               color="primary"
@@ -35,14 +43,6 @@
               (click)="denyFriendRequest(friendRequest._id)"
             >
               <mat-icon>clear</mat-icon>&nbsp;Deny friend request
-            </button>
-            <button
-              mat-raised-button
-              color="primary"
-              [style.margin]="'12px 0'"
-              (click)="acceptFriendRequest(friendRequest._id)"
-            >
-              <mat-icon>done</mat-icon>&nbsp;Accept friend request
             </button>
           </ng-container>
           <button

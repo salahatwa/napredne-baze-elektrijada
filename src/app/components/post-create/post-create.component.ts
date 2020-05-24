@@ -84,7 +84,6 @@ export class PostCreateComponent extends FormComponent<IPost>
 
   submit() {
     this.submitted.emit(this.postForm.value);
-    super.submit();
   }
 
   get isPost(): boolean {

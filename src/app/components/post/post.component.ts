@@ -40,7 +40,9 @@ export class PostComponent implements OnInit {
   }
 
   removeComment(comment: IComment) {
-    this.post.comments = this.post.comments.filter((com) => com !== comment);
+    this.postService.deleteComment(comment._id).subscribe(() => {
+      this.post.comments = this.post.comments.filter((com) => com !== comment);
+    });
   }
 
   get isEvent() {
