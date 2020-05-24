@@ -1,5 +1,5 @@
 <ul>
-  <li *ngFor="let session of sessions$ | async" (click)="select.emit(session)">
+  <li *ngFor="let session of sessions$ | async" (click)="select.emit(session._id)">
     <div
       class="avatars"
       [class.avatars--group]="session.participants.length > 2"
@@ -8,7 +8,7 @@
         class="avatar-wrapper"
         *ngFor="let participant of getLastTwoParticipant(session)"
       >
-        <img [src]="participant.imageURL" />
+        <img [src]="participant.imageURL || 'assets/images/avatar.png'" />
       </div>
     </div>
     <div class="meta">
@@ -20,9 +20,9 @@
         >
       </div>
       <div class="last-message">
-        <ng-container *ngIf="session.messages.slice(-1)[0] as lastMsg">
-          <div class="text">{{ lastMsg.text }}</div>
-          <div class="time">{{ lastMsg.createdAt | date: 'short' }}</div>
+        <ng-container *ngIf="session.lastMessage">
+          <div class="text">{{ session.lastMessage.text }}</div>
+          <div class="time">{{ session.lastMessage.createdAt | date: 'short' }}</div>
         </ng-container>
       </div>
     </div>

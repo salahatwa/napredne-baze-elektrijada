@@ -6,7 +6,7 @@ import { IChatSession } from './IChatSession'
 export interface IChatMessage {
   _id?: string
   text?: string
-  sender: string
+  sender: string | IUser
   data?: IEvent | IPost | string
   onModel?: string
   session: string | IChatSession

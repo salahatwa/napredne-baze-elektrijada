@@ -1,8 +1,17 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { IChatSession } from './../../../models/IChatSession';
+import { IChatMessage } from 'src/app/models/IChatMessage';
+import { SocketEventTypes } from './../../../constants/socket-event-types';
+import { filter } from 'rxjs/operators';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  OnDestroy,
+} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IChatSession } from 'src/app/models/IChatSession';
 import { IUser } from 'src/app/models/user.interface';
-import { SocketService } from 'src/app/services/socket.service';
+import { SocketService, ISocketEvent } from 'src/app/services/socket.service';
 import { ChatService } from 'src/app/services/chat.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import {
@@ -41,14 +50,16 @@ import {
     ]),
   ],
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
   isOpen = true;
   receiverId: string;
   loadingMsgs = false;
   totalMessages: number;
   receiver: IUser;
   session: IChatSession;
+  messages: IChatMessage[];
   inputValue = '';
+  subscriptions = [];
 
   get userId() {
     return this.authService.currentUser._id;
@@ -58,7 +69,6 @@ export class ChatComponent implements OnInit {
   msgContainer: ElementRef<HTMLDivElement>;
 
   constructor(
-    private route: ActivatedRoute,
     private authService: AuthService,
     private chatService: ChatService,
     private socketService: SocketService
@@ -66,6 +76,39 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.socketService.initSocket();
+    this.initializeListeners();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
+  }
+
+  initializeListeners() {
+    this.subscriptions.push(
+      this.socketService.socketSubject
+        .pipe(filter(({ type }) => type === SocketEventTypes.MESSAGE))
+        .subscribe(
+          ({
+            data: { session, message },
+          }: {
+            data: { session: IChatSession; message: IChatMessage };
+          }) => {
+            if (this.session && this.session._id === session._id) {
+              if (
+                !this.messages.some(
+                  (appMessage) =>
+                    appMessage._id === message._id ||
+                    (appMessage.ref &&
+                      message.ref &&
+                      appMessage.ref === message.ref)
+                )
+              ) {
+                this.messages.push(message);
+              }
+            }
+          }
+        )
+    );
   }
 
   getDistance() {
@@ -90,13 +133,42 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  createTmpSession() {
-    this.session = {
-      messages: [],
-    } as IChatSession;
+  sendMessage() {
+    const message = {
+      ref: `${Math.random() * 10e20}`,
+      text: this.inputValue,
+      sender: this.authService.currentUser._id,
+      session: this.session,
+      createdAt: new Date().toString(),
+    };
+    this.messages.push(message);
+    this.inputValue = '';
+    this.chatService
+      .sendMessageInSession(message, this.session._id)
+      .subscribe((data) => {
+        this.messages = this.messages.map((appMessages) =>
+          appMessages.ref === data.ref ? data : appMessages
+        );
+      });
   }
 
-  sendMessage() {
-    console.log('tried to send message');
+  loadSessionAndMessages(sessionId: string, take = 15, skip = 0) {
+    this.chatService
+      .getSessionWithMessages(sessionId, skip, take)
+      .subscribe(({ messages, session }) => {
+        this.session = session;
+        // Only first time set messages, when skipping append to old
+        if (!skip) {
+          this.messages = messages.docs;
+        } else {
+          this.messages = [...this.messages, ...messages.docs];
+        }
+        this.totalMessages = messages.total;
+      });
+  }
+
+
+  getUser(userId:string){
+    return this.session && this.session.participants.find(participant=>participant._id===userId)
   }
 }

@@ -1,7 +1,9 @@
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { map } from 'rxjs/operators';
+import { ChatService } from 'src/app/services/chat.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { IChatSession } from 'src/app/models/IChatSession';
 import { Observable } from 'rxjs';
-import { SessionService } from '../../services/session.service';
 
 @Component({
   selector: 'app-all-sessions',
@@ -13,14 +15,22 @@ export class AllSessionsComponent implements OnInit {
 
   @Output() select = new EventEmitter<IChatSession>();
 
-  constructor(private sessionService: SessionService) {
-    this.sessions$ = this.sessionService.fetchSessions();
+  constructor(
+    private chatService: ChatService,
+    private authService: AuthService
+  ) {
+    this.sessions$ = this.chatService
+      .getSessions()
+      .pipe(map((data) => data.docs));
   }
 
   ngOnInit() {}
 
   getLastTwoParticipant(session: IChatSession) {
-    // TODO remove me from participantss
-    return session.participants.slice(-2);
+    return session.participants
+      .filter(
+        (participant) => participant._id !== this.authService.currentUser._id
+      )
+      .slice(-2);
   }
 }

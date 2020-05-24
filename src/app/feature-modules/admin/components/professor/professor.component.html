@@ -1,7 +1,7 @@
 <form #form="ngForm" [formGroup]="userForm" (ngSubmit)="submit()" fxLayout="column">
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <app-image-picker #imgPicker fxFlex="30" [defaultImg]="userForm.get('imageURL').value || imgPicker.defaultImg"
-      (fileChanged)="userForm.patchValue({imageURL: $event})"></app-image-picker>
+    <app-image-picker #imgPicker fxFlex="30" [defaultImg]="userForm.get('imageBase64').value || userForm.get('imageURL').value || imgPicker.defaultImg"
+      (fileChanged)="userForm.patchValue({imageBase64: $event})"></app-image-picker>
     <div fxFlex="64" fxLayout="column">
       <mat-form-field appearance="outline">
         <input matInput type="text" placeholder="Name" autocomplete="off" formControlName="name">
