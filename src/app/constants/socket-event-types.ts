@@ -1,4 +1,4 @@
-export enum SocketEventTypes {
-  MESSAGE = 'message',
-  NOTIFICATION = 'notification',
+export const SocketEventTypes= {
+  MESSAGE : 'message',
+  NOTIFICATION : 'notification',
 }

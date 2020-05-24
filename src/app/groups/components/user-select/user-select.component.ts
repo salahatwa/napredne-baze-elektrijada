@@ -68,7 +68,7 @@ export class UserSelectComponent implements OnInit, ControlValueAccessor {
   }
 
   displayFn(opt: SelectOption<string>): string {
-    return (opt || {}).text;
+    return (opt || { text: '' }).text;
   }
 
   filterUsers = debounce((value: string) => {

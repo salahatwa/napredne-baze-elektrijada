@@ -16,7 +16,15 @@ export class FriendRequestService {
   getMyPendingFriendRequests(skip?: number, take?: number) {
     const params = makePagination(skip, take)
     return this.http.get<IPaginationResponse<IFriendRequest>>(
-      environment.API_ENDPOINT + this.route,
+      environment.API_ENDPOINT + this.route + 'received',
+      { params }
+    )
+  }
+
+  getMySentPendingFriendRequests(skip?: number, take?: number) {
+    const params = makePagination(skip, take)
+    return this.http.get<IPaginationResponse<IFriendRequest>>(
+      environment.API_ENDPOINT + this.route + 'sent',
       { params }
     )
   }
@@ -29,22 +37,15 @@ export class FriendRequestService {
     )
   }
 
-  acceptFriendRequest(userId: string) {
+  acceptFriendRequest(requestId: string) {
     return this.http.post<IFriendship>(
-      environment.API_ENDPOINT + this.route + userId + '/accept',
+      environment.API_ENDPOINT + this.route + requestId + '/accept',
       {}
     )
   }
 
-  getMySentFriendRequests(skip?: number, take?: number) {
-    const params = makePagination(skip, take)
-    return this.http.get<IPaginationResponse<IFriendRequest>>(
-      environment.API_ENDPOINT + this.route + 'sent',
-      { params }
-    )
-  }
 
-  deleteMySentFriendRequest(requestId: string) {
+  deleteMyFriendRequest(requestId: string) {
     return this.http.delete<IFriendRequest>(
       environment.API_ENDPOINT + this.route + requestId
     )

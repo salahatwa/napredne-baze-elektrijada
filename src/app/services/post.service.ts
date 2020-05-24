@@ -1,19 +1,19 @@
-import { PostTypes } from "src/app/constants/post-types.enum";
-import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { IPost } from "../models/IPost";
-import { environment } from "src/environments/environment";
-import { IPaginationResponse } from "../models/IPaginationResponse";
-import { IEvent } from "../models/IEvent";
-import { IComment } from "../models/IComment";
-import { makePagination } from "../common";
+import { PostTypes } from 'src/app/constants/post-types.enum';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { IPost } from '../models/IPost';
+import { environment } from 'src/environments/environment';
+import { IPaginationResponse } from '../models/IPaginationResponse';
+import { IEvent } from '../models/IEvent';
+import { IComment } from '../models/IComment';
+import { makePagination } from '../common';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class PostService {
-  public route = "sections/";
+  public route = 'sections/';
   constructor(private http: HttpClient) {}
 
   getPosts(sectionId?: string, skip?: number, take?: number) {
@@ -33,6 +33,12 @@ export class PostService {
 
   addComment(postId: string, comment: IComment) {
     return this.http.post<IComment>(this.getCommentRoute(postId), comment);
+  }
+
+  deleteComment(commentId: string) {
+    return this.http.delete<any>(
+      `${environment.API_ENDPOINT}${this.route}posts/comments/${commentId}`
+    );
   }
 
   loadMoreComments(postId: string, skip?: number, take: number = 15) {
