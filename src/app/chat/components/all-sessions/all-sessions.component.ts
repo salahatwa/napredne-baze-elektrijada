@@ -26,11 +26,11 @@ export class AllSessionsComponent implements OnInit {
 
   ngOnInit() {}
 
-  getLastTwoParticipant(session: IChatSession) {
+  getNParticipants(session: IChatSession,sliceTo) {
     return session.participants
       .filter(
         (participant) => participant._id !== this.authService.currentUser._id
       )
-      .slice(-2);
+      .slice(-sliceTo);
   }
 }

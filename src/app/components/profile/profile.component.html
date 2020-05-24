@@ -5,20 +5,65 @@
       <div>
         <app-image-picker
           [imgClasses]="'profile'"
-          [defaultImg]="'assets/images/avatar.png'"
+          [defaultImg]="userForm.get('imageBase64').value || userForm.get('imageURL').value || 'assets/images/avatar.png'"
           (fileChanged)="updateImage($event)"
         >
         </app-image-picker>
         <!-- <img src="assets/images/avatar.png" width="100%"> -->
         <small>Click on the image to change it</small>
-        <button
-          *ngIf="!itsMe"
-          mat-raised-button
-          color="primary"
-          [style.margin]="'12px 0'"
-        >
-          <mat-icon>person_add</mat-icon>&nbsp;Add Friend
-        </button>
+        <ng-container *ngIf="!itsMe">
+          <button
+            *ngIf="friend"
+            mat-raised-button
+            color="primary"
+            [style.margin]="'12px 0'"
+            (click)="removeFriend(friend._id)"
+          >
+            <mat-icon>remove</mat-icon>&nbsp;Remove friend
+          </button>
+          <ng-container
+            *ngIf="
+              !friend &&
+              friendRequest &&
+              friendRequest.receiverId === myUserId
+            "
+          >
+            <button
+              mat-raised-button
+              color="primary"
+              [style.margin]="'12px 0'"
+              (click)="denyFriendRequest(friendRequest._id)"
+            >
+              <mat-icon>clear</mat-icon>&nbsp;Deny friend request
+            </button>
+            <button
+              mat-raised-button
+              color="primary"
+              [style.margin]="'12px 0'"
+              (click)="acceptFriendRequest(friendRequest._id)"
+            >
+              <mat-icon>done</mat-icon>&nbsp;Accept friend request
+            </button>
+          </ng-container>
+          <button
+            *ngIf="friendRequest && friendRequest.senderId === myUserId"
+            mat-raised-button
+            color="primary"
+            [style.margin]="'12px 0'"
+            (click)="denyFriendRequest(friendRequest._id)"
+          >
+            <mat-icon>person_add_disabled</mat-icon>&nbsp;Cancel friend request
+          </button>
+          <button
+            *ngIf="!friend && !friendRequest"
+            mat-raised-button
+            color="primary"
+            [style.margin]="'12px 0'"
+            (click)="sendFriendRequest()"
+          >
+            <mat-icon>person_add</mat-icon>&nbsp;Add Friend
+          </button>
+        </ng-container>
       </div>
     </div>
     <div fxFlex="70">
@@ -26,6 +71,7 @@
         #form="ngForm"
         [class.preview]="!itsMe && !isAdmin"
         [formGroup]="userForm"
+        (ngSubmit)="editUser()"
       >
         <mat-form-field appearance="outline">
           <mat-label>Name</mat-label>

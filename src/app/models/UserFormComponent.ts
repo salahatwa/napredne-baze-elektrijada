@@ -33,8 +33,7 @@ export class UserForm extends FormComponent<IUser> implements OnInit {
     return this.user !== null;
   }
 
-  submit() {
-    super.submit();
+  getUserBody() {
     const user = this.userForm.value;
     delete user.imageURL;
     if (!user.password) {
@@ -43,10 +42,13 @@ export class UserForm extends FormComponent<IUser> implements OnInit {
     if (!user.imageBase64) {
       delete user.imageBase64;
     }
-
-    this.submitted.emit({
+    return {
       ...user,
       _id: this.user ? this.user._id : undefined,
-    });
+    };
+  }
+
+  submit() {
+    this.submitted.emit(this.getUserBody());
   }
 }
