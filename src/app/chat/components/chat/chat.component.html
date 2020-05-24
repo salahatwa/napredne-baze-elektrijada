@@ -14,8 +14,7 @@
       <button *ngIf="session" mat-icon-button (click)="session = null">
         <mat-icon>arrow_back</mat-icon>
       </button>
-      <h2 *ngIf="!session">Welcome to chat!</h2>
-      <h2 *ngIf="session">You are in session</h2>
+      <h2>{{ !session ? 'Select a session' : 'You are in session' }}</h2>
       <button mat-icon-button (click)="isOpen = false">
         <mat-icon class="adjust">minimize</mat-icon>
       </button>
