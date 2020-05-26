@@ -16,20 +16,11 @@
   }
 
   ::ng-deep > img {
-    @include size(24px);
-    @include shadow-standard;
-    margin-right: 8px;
-    border-radius: 50%;
+    @include list-item-avatar;
   }
 }
 
 .selected-users {
   margin-bottom: 12px;
-
-  mat-list-item {
-    @include shadow-standard;
-    & + mat-list-item {
-      margin-top: 12px;
-    }
-  }
+  @include list-items;
 }

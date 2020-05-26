@@ -11,7 +11,7 @@ import { HomeComponent } from "./components/home/home.component";
 import { SectionComponent } from "./components/section/section.component";
 import { PostCreateComponent } from "./components/post-create/post-create.component";
 import { NavbarComponent } from "./components/navbar/navbar.component";
-import { FreeInputDirective } from "./directives/free-input.directive";
+import { FreeInputDirective } from "./feature-modules/shared/directives/free-input.directive";
 import { ProfileComponent } from "./components/profile/profile.component";
 import { PostComponent } from "./components/post/post.component";
 import { CommentCreateComponent } from "./components/comment-create/comment-create.component";

@@ -1,0 +1,53 @@
+<header>
+  <h2>{{ data.name }}</h2>
+</header>
+<main>
+  <h3>Add new members</h3>
+  <section class="invite">
+    <form [formGroup]="invitationsForm" (ngSubmit)="sendInvitations()">
+      <app-user-select
+        [exclude]="currentGroupUserIds"
+        formControlName="users"
+      ></app-user-select>
+      <div *ngIf="formUsers?.length" class="actions">
+        <button mat-raised-button color="primary">Send invitations</button>
+      </div>
+    </form>
+  </section>
+  <h3>Members({{ data.participants.length }}):</h3>
+  <mat-list>
+    <mat-list-item *ngFor="let participant of data.participants">
+      <div class="content">
+        <img
+          [src]="participant.participant.imageURL || 'assets/images/avatar.png'"
+          alt="avatar"
+        />
+        {{ participant.participant.username }}
+        &nbsp;
+        <strong *ngIf="data.userId === participant.participantId">Owner</strong>
+      </div>
+      <button
+        *ngIf="
+          data.userId === currentUserId &&
+          data.userId !== participant.participantId
+        "
+        mat-icon-button
+        color="warn"
+        (click)="removeFromGroup(participant)"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
+</main>
+<footer>
+  <button
+    *canSee="['Admin', currentUserId === data.userId]"
+    mat-raised-button
+    color="warn"
+    (click)="deleteGroup()"
+  >
+    Delete group
+  </button>
+  <button mat-button type="button" (click)="close()">Close</button>
+</footer>

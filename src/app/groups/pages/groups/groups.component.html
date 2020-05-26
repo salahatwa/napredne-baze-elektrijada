@@ -1,6 +1,6 @@
 <h1>Welcome to groups</h1>
 <header>
-  <h2>Groups({{ groups.length }}):</h2>
+  <h2>Groups({{ groups?.length }}):</h2>
   <button (click)="openCreateGroupDialog()" mat-raised-button color="primary">
     Create new group
   </button>
@@ -8,9 +8,19 @@
 
 <main>
   <mat-list role="list">
-    <mat-list-item *ngFor="let group of groups" role="listitem">{{
-      group.name
-    }}</mat-list-item>
+    <mat-list-item
+      *ngFor="let group of groups"
+      role="listitem"
+      (click)="openGroupPreview(group)"
+      ><div class="content">{{ group.name }}</div>
+      <a
+        (click)="$event.stopPropagation()"
+        routerLink="."
+        [queryParams]="{ sessionId: group.chatSessionId }"
+        mat-icon-button
+        ><mat-icon>chat</mat-icon></a
+      ></mat-list-item
+    >
   </mat-list>
 
   <div class="empty-state">

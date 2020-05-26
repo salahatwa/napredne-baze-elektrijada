@@ -14,3 +14,33 @@
 @mixin shadow-standard() {
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.25);
 }
+
+@mixin list-items() {
+  mat-list-item {
+    ::ng-deep {
+      .content {
+        flex: 1 1 100%;
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    @include shadow-standard;
+    & + mat-list-item {
+      margin-top: 12px;
+    }
+  }
+}
+
+@mixin list-item-avatar() {
+  @include size(24px);
+  @include shadow-standard;
+  margin-right: 8px;
+  border-radius: 50%;
+}
+
+@mixin modal-actions() {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+}

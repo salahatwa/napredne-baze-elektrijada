@@ -53,7 +53,7 @@ import { SubsinkService } from 'src/app/services/subsink.service';
   providers: [SubsinkService],
 })
 export class ChatComponent implements OnInit {
-  isOpen = true;
+  isOpen = false;
   receiverId: string;
   loadingMsgs = false;
   totalMessages: number;

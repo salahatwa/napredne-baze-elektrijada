@@ -23,6 +23,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class UserSelectComponent implements OnInit, ControlValueAccessor {
   @Input() disabled = false;
+  @Input() exclude: string[] = [];
   value: string = '';
   optionValid = false;
   options: SelectOption<string>[] = [];
@@ -59,7 +60,7 @@ export class UserSelectComponent implements OnInit, ControlValueAccessor {
               (opt) =>
                 !this.selectedOptions
                   .map((sOpt) => sOpt.value)
-                  .includes(opt.value)
+                  .includes(opt.value) && !this.exclude.includes(opt.value)
             )
           )
         )

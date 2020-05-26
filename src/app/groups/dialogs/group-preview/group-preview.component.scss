@@ -1,0 +1,45 @@
+@import '../../../../scss/settings';
+
+:host {
+  display: block;
+  min-width: 500px;
+  max-width: 100%;
+
+  h3 + mat-list {
+    padding-top: 0;
+  }
+
+  mat-list {
+    @include list-items;
+    mat-list-item {
+      img {
+        @include list-item-avatar;
+      }
+      strong {
+        color: gray;
+      }
+    }
+  }
+
+  footer {
+    @include modal-actions;
+    justify-content: space-between;
+  }
+}
+
+app-user-select {
+  ::ng-deep {
+    .mat-form-field-wrapper {
+      padding-bottom: 0;
+    }
+
+    h3 {
+      display: none;
+    }
+  }
+
+  + .actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
