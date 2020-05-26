@@ -1,0 +1,25 @@
+@import './color';
+
+$thumb-width: 6px;
+$border-radius: 4px;
+
+/* width */
+::-webkit-scrollbar {
+  width: $thumb-width;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e4e6e4;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #999;
+  border-radius: $border-radius;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: darken(#999, 15%);
+}
