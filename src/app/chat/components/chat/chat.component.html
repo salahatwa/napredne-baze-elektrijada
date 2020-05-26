@@ -30,21 +30,29 @@
               *ngFor="let message of messages"
               [isMine]="message.sender === userId"
             >
-              {{ message.sender == userId ? 'Me' : getUser(message.sender)?.username || 'Deleted' }}: {{ message.text }}
+              {{
+                message.sender == userId
+                  ? 'Me'
+                  : getUser(message.sender)?.username || 'Deleted'
+              }}: {{ message.text }}
             </app-message>
           </ng-container>
         </div>
         <div class="empty-state">Say hello!</div>
       </main>
       <footer>
-        <form (ngSubmit)="inputValue.trim() !== '' && sendMessage(receiverId)">
+        <form [formGroup]="inputForm" (ngSubmit)="sendMessage(receiverId)">
           <app-chat-input
-            name="text"
+            formControlName="text"
             (enter)="sendMessage(receiverId)"
-            [(ngModel)]="inputValue"
           ></app-chat-input>
           <div class="chat__actions">
-            <button mat-icon-button color="primary" type="submit">
+            <button
+              mat-icon-button
+              color="primary"
+              [disabled]="!inputForm.valid"
+              type="submit"
+            >
               <mat-icon>send</mat-icon>
             </button>
           </div>

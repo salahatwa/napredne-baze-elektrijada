@@ -134,7 +134,7 @@ export class ChatInputComponent implements OnInit, ControlValueAccessor {
   }
 
   writeValue(obj: string): void {
-    this.value = obj;
+    this.textarea.nativeElement.value = obj;
   }
 
   registerOnChange(fn: any): void {

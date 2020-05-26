@@ -1,15 +1,10 @@
 import { IChatSession } from 'src/app/models/IChatSession';
 import { IChatMessage } from 'src/app/models/IChatMessage';
 import { SocketEventTypes } from './../../../constants/socket-event-types';
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IUser } from 'src/app/models/user.interface';
-import { SocketService, ISocketEvent } from 'src/app/services/socket.service';
+import { SocketService } from 'src/app/services/socket.service';
 import { ChatService } from 'src/app/services/chat.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import {
@@ -20,6 +15,7 @@ import {
   animate,
 } from '@angular/animations';
 import { SubsinkService } from 'src/app/services/subsink.service';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-chat',
@@ -51,20 +47,23 @@ import { SubsinkService } from 'src/app/services/subsink.service';
   providers: [SubsinkService],
 })
 export class ChatComponent implements OnInit {
-  isOpen = false;
+  inputForm = this.formBuilder.group({
+    text: ['', Validators.required],
+  });
+
+  isOpen = true;
   receiverId: string;
   loadingMsgs = false;
   totalMessages: number;
   receiver: IUser;
   session: IChatSession;
   messages: IChatMessage[];
-  inputValue = '';
 
   get userId() {
     return this.authService.currentUser._id;
   }
 
-  @ViewChild('msgContainer', { static: true })
+  @ViewChild('msgContainer', { static: false })
   msgContainer: ElementRef<HTMLDivElement>;
 
   constructor(
@@ -73,7 +72,8 @@ export class ChatComponent implements OnInit {
     private socketService: SocketService,
     private subsink: SubsinkService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -92,7 +92,8 @@ export class ChatComponent implements OnInit {
 
   initializeListeners() {
     this.subsink.add(
-      this.socketService.getEvent(SocketEventTypes.MESSAGE)
+      this.socketService
+        .getEvent(SocketEventTypes.MESSAGE)
         .subscribe(
           ({
             data: { session, message },
@@ -109,12 +110,13 @@ export class ChatComponent implements OnInit {
                       appMessage.ref === message.ref)
                 )
               ) {
-                this.messages.push(message);
+                this.addMessageWithScroll(message);
               }
             }
           }
         ),
-      this.socketService.getEvent(SocketEventTypes.SESSION_CREATED)
+      this.socketService
+        .getEvent(SocketEventTypes.SESSION_CREATED)
         .subscribe(({ data: { sessionId } }) => {
           if (!this.session) {
             this.router.navigate([], {
@@ -124,13 +126,15 @@ export class ChatComponent implements OnInit {
             });
           }
         }),
-      this.socketService.getEvent(SocketEventTypes.SESSION_REMOVED)
+      this.socketService
+        .getEvent(SocketEventTypes.SESSION_REMOVED)
         .subscribe(({ data: { sessionId } }) => {
           if (this.session && this.session._id === sessionId) {
             this.leaveSession();
           }
         }),
-      this.socketService.getEvent(SocketEventTypes.SESSION_CHANGED)
+      this.socketService
+        .getEvent(SocketEventTypes.SESSION_CHANGED)
         .subscribe(({ data: { session } }) => {
           if (this.session && this.session._id === session._id) {
             this.session = session;
@@ -148,10 +152,11 @@ export class ChatComponent implements OnInit {
   }
 
   updateScroll() {
-    const msgsEl = this.msgContainer.nativeElement;
-    if (!msgsEl) return false;
-    msgsEl.scrollTop = msgsEl.scrollHeight;
-    return true;
+    requestAnimationFrame(() => {
+      const msgsEl = this.msgContainer.nativeElement;
+      if (!msgsEl) return;
+      msgsEl.scrollTop = msgsEl.scrollHeight;
+    });
   }
 
   tryUpdateScroll(distanceToBot: number) {
@@ -161,16 +166,24 @@ export class ChatComponent implements OnInit {
     }
   }
 
+  addMessageWithScroll(msg: IChatMessage) {
+    const distanceBeforeAddingMessage = this.getDistance();
+    this.messages.push(msg);
+    this.tryUpdateScroll(distanceBeforeAddingMessage);
+  }
+
   sendMessage() {
+    if (!this.inputForm.valid) return;
+
     const message = {
       ref: `${Math.random() * 10e20}`,
-      text: this.inputValue,
+      text: this.inputForm.get('text').value as string,
       sender: this.authService.currentUser._id,
       session: this.session,
       createdAt: new Date().toString(),
     };
-    this.messages.push(message);
-    this.inputValue = '';
+    this.inputForm.reset();
+    this.addMessageWithScroll(message);
     this.chatService
       .sendMessageInSession(message, this.session._id)
       .subscribe((data) => {
@@ -184,7 +197,7 @@ export class ChatComponent implements OnInit {
     this.chatService
       .getSessionWithMessages(sessionId, skip, take)
       .subscribe(({ messages, session }) => {
-        if(session){
+        if (session) {
           this.session = session;
           // Only first time set messages, when skipping append to old
           if (!skip) {
@@ -193,6 +206,7 @@ export class ChatComponent implements OnInit {
             this.messages = [...this.messages, ...messages.docs];
           }
           this.totalMessages = messages.total;
+          this.updateScroll();
         }
       });
   }

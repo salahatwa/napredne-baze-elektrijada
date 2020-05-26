@@ -7,10 +7,7 @@
     height: height,
     'max-height': maxHeight + 'px'
   }"
-  name="text"
-  [value]="value"
-  [ngModel]="value"
-  (ngModelChange)="onChange($event)"
+  (input)="onChange($event.target.value)"
   (keydown)="onKeyDown($event)"
   [spellcheck]="false"
   autocomplete="false"
