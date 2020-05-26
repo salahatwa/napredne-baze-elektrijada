@@ -1,7 +1,7 @@
+import { IPaginationResponse } from './../models/IPaginationResponse';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { ApiResponse } from 'src/app/models/api';
 import { IUser } from 'src/app/models/user.interface';
 
 export type GroupParticipant = {
@@ -20,18 +20,24 @@ export type Group = {
   participants: GroupParticipant[];
 };
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class GroupService {
   url = environment.API_ENDPOINT + 'groups';
 
   constructor(private httpClient: HttpClient) {}
 
   fetchGroups() {
-    return this.httpClient.get<ApiResponse<Group[]>>(this.url);
+    return this.httpClient.get<IPaginationResponse<Group>>(this.url);
   }
 
   createGroup(group: Group) {
-    return this.httpClient.post(this.url, group);
+    return this.httpClient.post<Group>(this.url, group);
+  }
+
+  updateGroup(group: Partial<Group>) {
+    return this.httpClient.put<Group>(`${this.url}/${group._id}`, group);
   }
 
   deleteGroup(id: string) {

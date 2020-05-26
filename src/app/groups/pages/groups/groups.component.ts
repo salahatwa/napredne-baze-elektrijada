@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Group, GroupService } from '../../services/group.service';
+import { Group, GroupService } from 'src/app/services/group.service';
 import { MatDialog } from '@angular/material';
 import { CreateGroupComponent } from '../../dialogs/create-group/create-group.component';
 import { GroupPreviewComponent } from '../../dialogs/group-preview/group-preview.component';

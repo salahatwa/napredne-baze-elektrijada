@@ -8,6 +8,7 @@ import { HoverableDirective } from 'src/app/feature-modules/shared/directives/ho
 import { CanSeeDirective } from './directives/can-see.directive';
 import { MustBeAuthenticatedDirective } from './directives/must-be-authenticated.directive';
 
+
 @NgModule({
   declarations: [
     ImagePickerComponent,

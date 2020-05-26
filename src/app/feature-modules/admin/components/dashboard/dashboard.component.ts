@@ -9,6 +9,7 @@ import { IUser } from 'src/app/models/user.interface';
 import { ISection } from 'src/app/models/ISection';
 import { ProfessorService } from 'src/app/services/professor.service';
 import { SectionService } from 'src/app/services/section.service';
+import { GroupService, Group } from 'src/app/services/group.service';
 
 class Entity<T extends { _id?: string }> {
   array: T[];
@@ -25,6 +26,11 @@ class Entity<T extends { _id?: string }> {
 
   remove?(item: T) {
     const itemIndex = this.array.findIndex((one) => item._id === one._id);
+    this.array.splice(itemIndex, 1);
+  }
+
+  removeById?(id: string) {
+    const itemIndex = this.array.findIndex((one) => one._id === id);
     this.array.splice(itemIndex, 1);
   }
 
@@ -46,18 +52,26 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   proffesorTemplate: TemplateRef<any>;
   @ViewChild('sectionTemplate', { static: true })
   sectionTemplate: TemplateRef<any>;
+  @ViewChild('groupTemplate', { static: true })
+  groupTemplate: TemplateRef<any>;
 
-  entities: { professor: Entity<IUser>; section: Entity<ISection> };
+  entities: {
+    professor: Entity<IUser>;
+    section: Entity<ISection>;
+    group: Entity<Group>;
+  };
   entititesArray: (Entity<IUser | ISection> & { name: string })[];
   constructor(
     private professorService: ProfessorService,
-    private sectionService: SectionService
+    private sectionService: SectionService,
+    private groupService: GroupService
   ) {}
 
   ngOnInit() {
     this.entities = {
       professor: new Entity<IUser>(this.proffesorTemplate, 'Professors'),
       section: new Entity<ISection>(this.sectionTemplate, 'Sections'),
+      group: new Entity<Group>(this.groupTemplate, 'Groups'),
     };
 
     this.entititesArray = Object.keys(this.entities).map((key) => ({
@@ -72,6 +86,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.sectionService
       .getSections()
       .subscribe((sections) => this.entities.section.array.push(...sections));
+    this.groupService
+      .fetchGroups()
+      .subscribe((res) => this.entities.group.array.push(...res.docs));
   }
 
   ngAfterViewInit() {}
@@ -86,6 +103,18 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.professorService
         .createProfessor(professor)
         .subscribe((user) => this.entities.professor.add(user));
+    }
+  }
+
+  saveGroup(groupBody: Group, editing: boolean) {
+    if (editing) {
+      this.groupService
+        .updateGroup(groupBody)
+        .subscribe((group) => this.entities.group.update(group));
+    } else {
+      this.groupService
+        .createGroup(groupBody)
+        .subscribe((group) => this.entities.group.add(group));
     }
   }
 
@@ -106,18 +135,19 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       if (entityName === 'professor') {
         this.professorService
           .deleteProfessor(id)
-          .subscribe((user) => this.entities.professor.remove(user));
+          .subscribe(() => this.entities.professor.removeById(id));
       }
 
       if (entityName === 'section') {
         this.sectionService
           .deleteSection(id)
-          .subscribe((section) => this.entities.section.remove(section));
+          .subscribe(() => this.entities.section.removeById(id));
+      }
+      if (entityName === 'group') {
+        this.groupService
+          .deleteGroup(id)
+          .subscribe(() => this.entities.group.removeById(id));
       }
     }
-  }
-
-  log(data) {
-    console.log(data);
   }
 }

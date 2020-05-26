@@ -1,11 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Input, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { CreateGroupComponent } from '../create-group/create-group.component';
 import {
   Group,
   GroupService,
   GroupParticipant,
-} from '../../services/group.service';
+} from 'src/app/services/group.service';
 import { FormBuilder } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
@@ -15,6 +15,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./group-preview.component.scss'],
 })
 export class GroupPreviewComponent implements OnInit {
+  @Input() inputData = null;
   invitationsForm = this.formBuilder.group({
     users: [[]],
   });
@@ -36,9 +37,13 @@ export class GroupPreviewComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private groupService: GroupService,
-    public dialogRef: MatDialogRef<CreateGroupComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Group
+    @Optional() public dialogRef: MatDialogRef<CreateGroupComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public dialogData: Group
   ) {}
+
+  get data() {
+    return this.dialogData ? this.dialogData : this.inputData;
+  }
 
   ngOnInit() {}
 

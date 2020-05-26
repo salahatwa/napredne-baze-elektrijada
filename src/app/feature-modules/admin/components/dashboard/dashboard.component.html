@@ -1,4 +1,5 @@
 <div class="container">
+  <app-statistics></app-statistics>
   <app-entity-crud [title]="entity.title" *ngFor="let entity of entititesArray">
     <ng-container *ngFor="let item of entity.array">
       <ng-container
@@ -51,4 +52,12 @@
     (finished)="entity ? panel.toggle() : entities[entityName].switch = !entities[entityName].switch"
     [section]="entity || null">
   </app-section>
+</ng-template>
+
+
+<ng-template #groupTemplate let-entity="entity" let-entityName="entityName" let-panel="panel">
+  <app-groups (submitted)="saveGroup($event, entity ? true : false)"
+    (finished)="entity ? panel.toggle() : entities[entityName].switch = !entities[entityName].switch"
+    [group]="entity || null">
+  </app-groups>
 </ng-template>

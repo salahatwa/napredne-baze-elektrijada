@@ -1,8 +1,8 @@
+import { IPaginationResponse } from './../models/IPaginationResponse';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Injector } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { ApiResponse } from '../models/api';
 
 export type SelectOption<T = string> = {
   value: T;
@@ -61,7 +61,7 @@ export abstract class SearcherService<T> {
     } else if (this.currentCount < this.total) {
       const { headers } = this;
       this.http
-        .get<ApiResponse<T[]>>(
+        .get<IPaginationResponse<T>>(
           `${environment.API_ENDPOINT}${endpoint || this.endpoint}`,
           {
             params: {

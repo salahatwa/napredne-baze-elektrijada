@@ -15,8 +15,6 @@ import { FormComponent } from 'src/app/models/FormComponent';
 })
 export class SectionComponent extends FormComponent<ISection>
   implements OnInit {
-  toppings = new FormControl();
-  toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni'];
   @Input() section: ISection;
   sectionForm: FormGroup = this.buildForm();
 

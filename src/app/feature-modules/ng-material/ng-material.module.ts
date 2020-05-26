@@ -1,6 +1,9 @@
-import { NgModule } from '@angular/core'
-import { CommonModule } from '@angular/common'
-import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatChipsModule } from '@angular/material/chips';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import {
   MatButtonModule,
@@ -18,11 +21,11 @@ import {
   MatToolbarModule,
   MatMenuModule,
   MatListModule,
-} from '@angular/material'
+} from '@angular/material';
 import {
   MomentDateAdapter,
   MAT_MOMENT_DATE_FORMATS,
-} from '@angular/material-moment-adapter'
+} from '@angular/material-moment-adapter';
 
 @NgModule({
   exports: [
@@ -40,9 +43,16 @@ import {
     MatSelectModule,
     MatMenuModule,
     MatListModule,
+    MatChipsModule,
+    MatTabsModule,
+    MatPaginatorModule,
   ],
   providers: [
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
   ],
 })
