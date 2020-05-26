@@ -23,6 +23,12 @@
         display: flex;
         align-items: center;
       }
+
+      .date {
+        font-size: 12px;
+        color: gray;
+        white-space: nowrap;
+      }
     }
 
     @include shadow-standard;

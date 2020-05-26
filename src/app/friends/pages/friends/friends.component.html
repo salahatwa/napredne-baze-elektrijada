@@ -3,23 +3,18 @@
     <h2 *ngIf="!friends.length">No friends</h2>
     <mat-list>
       <mat-list-item *ngFor="let friend of friends">
-        <img
-          hoverable
-          [src]="friend.imageURL || 'assets/images/avatar.png'"
-          width="40px"
-          [routerLink]="['/profile', friend._id]"
-        />
-        <h4 hoverable [routerLink]="['/profile', friend._id]" matLine>
+        <a class="content" [routerLink]="['/profile', friend._id]">
+          <img [src]="friend.imageURL || 'assets/images/avatar.png'" />
           {{ friend.username }}
-        </h4>
+        </a>
         <button
-          mat-mini-fab
+          mat-icon-button
           routerLink="."
           [queryParams]="{ sessionId: getFriendship(friend._id).chatSessionId }"
         >
           <mat-icon>chat</mat-icon>
         </button>
-        <button mat-mini-fab color="warn" (click)="removeFriend(friend._id)">
+        <button mat-icon-button color="warn" (click)="removeFriend(friend._id)">
           <mat-icon>delete</mat-icon>
         </button>
       </mat-list-item>
@@ -36,29 +31,29 @@
     <ng-container *ngIf="friendRequests.length">
       <mat-list>
         <mat-list-item *ngFor="let friendRequest of friendRequests">
-          <img
-            hoverable
-            [src]="friendRequest.sender.imageURL || 'assets/images/avatar.png'"
-            width="40px"
+          <a
+            class="content"
             [routerLink]="['/profile', friendRequest.sender._id]"
-          />
-          <h4
-            hoverable
-            [routerLink]="['/profile', friendRequest.sender._id]"
-            matLine
           >
+            <img
+              [src]="
+                friendRequest.sender.imageURL || 'assets/images/avatar.png'
+              "
+            />
             {{ friendRequest.sender.username }}
-          </h4>
-          <h5>{{ friendRequest.createdAt | date: 'short' }}</h5>
+          </a>
+          <span class="date">{{
+            friendRequest.createdAt | date: 'short'
+          }}</span>
           <button
-            mat-mini-fab
-            color="warn"
+            mat-icon-button
+            color="primary"
             (click)="acceptFriendRequest(friendRequest._id)"
           >
-            <mat-icon>add</mat-icon>
+            <mat-icon>check</mat-icon>
           </button>
           <button
-            mat-mini-fab
+            mat-icon-button
             color="warn"
             (click)="denyFriendRequest(friendRequest._id)"
           >
@@ -81,22 +76,15 @@
     <ng-container *ngIf="sentRequests.length">
       <mat-list>
         <mat-list-item *ngFor="let request of sentRequests">
-          <img
-            hoverable
-            [src]="request.receiver.imageURL || 'assets/images/avatar.png'"
-            width="40px"
-            [routerLink]="['/profile', request.receiver._id]"
-          />
-          <h4
-            hoverable
-            [routerLink]="['/profile', request.receiver._id]"
-            matLine
-          >
+          <a class="content" [routerLink]="['/profile', request.receiver._id]">
+            <img
+              [src]="request.receiver.imageURL || 'assets/images/avatar.png'"
+            />
             {{ request.receiver.username }}
-          </h4>
-          <h5>{{ request.createdAt | date: 'short' }}</h5>
+          </a>
+          <span class="date">{{ request.createdAt | date: 'short' }}</span>
           <button
-            mat-mini-fab
+            mat-icon-button
             color="warn"
             (click)="cancelFriendRequest(request._id)"
           >

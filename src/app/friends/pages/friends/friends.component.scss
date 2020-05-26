@@ -1,5 +1,15 @@
 @import '../../../../scss/settings';
 
-:host{
-    @include page-layout;
+:host {
+  @include page-layout;
+  mat-list {
+    @include list-items;
+
+    mat-list-item {
+      box-shadow: none;
+      img {
+        @include list-item-avatar;
+      }
+    }
+  }
 }
