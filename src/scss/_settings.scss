@@ -15,7 +15,7 @@
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.25);
 }
 
-@mixin list-items() {
+@mixin list-items($withMargin: true) {
   mat-list-item {
     ::ng-deep {
       .content {
@@ -32,8 +32,10 @@
     }
 
     @include shadow-standard;
-    & + mat-list-item {
-      margin-top: 12px;
+    @if ($withMargin) {
+      & + mat-list-item {
+        margin-top: 12px;
+      }
     }
   }
 }

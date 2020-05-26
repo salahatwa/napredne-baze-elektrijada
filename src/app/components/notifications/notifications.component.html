@@ -1,20 +1,26 @@
 <button mat-button [matMenuTriggerFor]="menu">
   <mat-icon
     [matBadge]="totalNotOpened"
+    [matBadgeHidden]="!totalNotOpened"
     matBadgeColor="warn"
     matBadgePosition="above after"
     >notifications</mat-icon
   >
 </button>
 <mat-menu #menu="matMenu">
-  <mat-nav-list class="notification-list">
-    <mat-list-item *ngFor="let notification of notifications" [routerLink]="notification.relativeLink"   (click)="readNotification(notification)" [class.notification-item-unread]="!notification.openedAt">
-      <img
-      *ngIf="notification.emitter"
-      [src]="notification.emitter.imageURL || 'assets/images/avatar.png'"
-      width="40px"
-    />
-      <a matLine >{{ notification.text }}</a>
+  <mat-list class="notification-list">
+    <mat-list-item
+      *ngFor="let notification of notifications"
+      (click)="readNotification(notification)"
+      [class.notification-item-unread]="!notification.openedAt"
+    >
+      <a class="content" [routerLink]="notification.relativeLink">
+        <img
+          *ngIf="notification.emitter"
+          [src]="notification.emitter.imageURL || 'assets/images/avatar.png'"
+        />
+        {{ notification.text }}</a
+      >
     </mat-list-item>
-  </mat-nav-list>
+  </mat-list>
 </mat-menu>

@@ -1,7 +1,26 @@
-.notification-item-unread{
-    background-color: #d6dcfd;
+@import '../../../scss/settings';
+
+.notification-item-unread {
+  background-color: #d6dcfd;
 }
 
 .notification-list {
-    max-height: 400px;
+  max-height: 400px;
+}
+
+mat-list {
+  @include list-items(false);
+  padding: 0;
+  img {
+    @include list-item-avatar;
+  }
+
+  mat-list-item {
+    box-shadow: none;
+    min-height: 48px;
+    height: auto;
+    padding: 4px 0;
+    font-size: 14px;
+    border-top: solid 1px rgba(black, 0.2);
+  }
 }
