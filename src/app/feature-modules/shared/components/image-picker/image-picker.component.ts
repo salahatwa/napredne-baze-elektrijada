@@ -16,6 +16,7 @@ import {
 export class ImagePickerComponent implements OnInit {
   @Input() defaultImg = 'assets/images/thumbnail.svg';
   @Input() imgClasses: string;
+  @Input() disabled: boolean = false;
   @ViewChild('imgInput', { static: true }) imgInput: ElementRef<HTMLElement>;
 
   image: File;

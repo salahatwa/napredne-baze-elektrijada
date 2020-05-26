@@ -11,11 +11,11 @@
   </button>
   <div class="chat__content" *ngIf="isOpen" [@wipe]="isOpen">
     <header>
-      <button *ngIf="session" mat-icon-button (click)="session = null">
+      <button *ngIf="session" mat-icon-button (click)="leaveSession()">
         <mat-icon>arrow_back</mat-icon>
       </button>
       <h2>{{ !session ? 'Select a session' : 'You are in session' }}</h2>
-      <button mat-icon-button (click)="isOpen = false">
+      <button mat-icon-button (click)="minimizeSession()">
         <mat-icon class="adjust">minimize</mat-icon>
       </button>
     </header>

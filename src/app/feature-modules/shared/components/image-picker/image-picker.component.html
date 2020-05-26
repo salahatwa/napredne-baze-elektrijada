@@ -4,6 +4,7 @@
   accept="image/*"
   (change)="fileAdded($event)"
   [ngStyle]="{ display: 'none' }"
+  [disabled]="disabled"
 />
 <img
   [class]="'img' + ' ' + imgClasses"

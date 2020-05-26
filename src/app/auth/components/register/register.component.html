@@ -44,6 +44,26 @@
             type="password"
           />
         </mat-form-field>
+        <mat-form-field appearance="outline" class="block">
+          <mat-icon matSuffix>person</mat-icon>
+          <input
+            formControlName="name"
+            matInput
+            placeholder="Name"
+            spellcheck="false"
+            type="text"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="block">
+          <mat-icon matSuffix>person</mat-icon>
+          <input
+            formControlName="email"
+            matInput
+            placeholder="Email"
+            spellcheck="false"
+            type="email"
+          />
+        </mat-form-field>
         <mat-error
           *ngIf="
             registrationForm.errors?.passwordMismatch &&

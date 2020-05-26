@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import * as io from 'socket.io-client';
@@ -44,5 +45,9 @@ export class SocketService {
 
   sendEvent<T>(eventName: string, eventPayload: T) {
     this.socket.emit(eventName, eventPayload);
+  }
+
+  getEvent(eventName: string) {
+    return this.socketSubject.pipe(filter(({ type }) => type === eventName));
   }
 }

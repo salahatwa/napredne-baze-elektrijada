@@ -1,0 +1,116 @@
+<mat-tab-group>
+  <mat-tab label="Friends">
+    <h2 *ngIf="!friends.length">No friends</h2>
+    <mat-list>
+      <mat-list-item *ngFor="let friend of friends">
+        <img
+          hoverable
+          [src]="friend.imageURL || 'assets/images/avatar.png'"
+          width="40px"
+          [routerLink]="['/profile', friend._id]"
+        />
+        <h4 hoverable [routerLink]="['/profile', friend._id]" matLine>
+          {{ friend.username }}
+        </h4>
+        <button
+          mat-mini-fab
+          routerLink="."
+          [queryParams]="{ sessionId: getFriendship(friend._id).chatSessionId }"
+        >
+          <mat-icon>chat</mat-icon>
+        </button>
+        <button mat-mini-fab color="warn" (click)="removeFriend(friend._id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-list>
+    <mat-paginator
+      [length]="friendsTotal"
+      [pageSize]="DEFAULT_TAKE"
+      (page)="changePage($event, getFriends)"
+    >
+    </mat-paginator>
+  </mat-tab>
+  <mat-tab label="Friends requests">
+    <h2 *ngIf="!friendRequests.length">No pending friend requests</h2>
+    <ng-container *ngIf="friendRequests.length">
+      <mat-list>
+        <mat-list-item *ngFor="let friendRequest of friendRequests">
+          <img
+            hoverable
+            [src]="friendRequest.sender.imageURL || 'assets/images/avatar.png'"
+            width="40px"
+            [routerLink]="['/profile', friendRequest.sender._id]"
+          />
+          <h4
+            hoverable
+            [routerLink]="['/profile', friendRequest.sender._id]"
+            matLine
+          >
+            {{ friendRequest.sender.username }}
+          </h4>
+          <h5>{{ friendRequest.createdAt | date: 'short' }}</h5>
+          <button
+            mat-mini-fab
+            color="warn"
+            (click)="acceptFriendRequest(friendRequest._id)"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+          <button
+            mat-mini-fab
+            color="warn"
+            (click)="denyFriendRequest(friendRequest._id)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-list-item>
+      </mat-list>
+      <mat-paginator
+        [length]="friendRequestsTotal"
+        [pageSize]="DEFAULT_TAKE"
+        (page)="changePage($event, getFriendRequests)"
+      >
+      </mat-paginator>
+    </ng-container>
+  </mat-tab>
+  <mat-tab label="Sent pending requests">
+    <h2 *ngIf="!sentRequests.length">
+      There are no sent pending friend requests
+    </h2>
+    <ng-container *ngIf="sentRequests.length">
+      <mat-list>
+        <mat-list-item *ngFor="let request of sentRequests">
+          <img
+            hoverable
+            [src]="request.receiver.imageURL || 'assets/images/avatar.png'"
+            width="40px"
+            [routerLink]="['/profile', request.receiver._id]"
+          />
+          <h4
+            hoverable
+            [routerLink]="['/profile', request.receiver._id]"
+            matLine
+          >
+            {{ request.receiver.username }}
+          </h4>
+          <h5>{{ request.createdAt | date: 'short' }}</h5>
+          <button
+            mat-mini-fab
+            color="warn"
+            (click)="cancelFriendRequest(request._id)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-list-item>
+        <h2 *ngIf="!friends.length">No friends</h2>
+      </mat-list>
+      <mat-paginator
+        [length]="sentRequestsTotal"
+        [pageSize]="DEFAULT_TAKE"
+        (page)="changePage($event, getSentRequests)"
+      >
+      </mat-paginator>
+    </ng-container>
+  </mat-tab>
+</mat-tab-group>

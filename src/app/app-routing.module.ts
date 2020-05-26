@@ -12,7 +12,6 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [AuthGuard],
   },
   {
     path: 'auth',
@@ -32,6 +31,12 @@ const routes: Routes = [
     canLoad: [AuthGuard],
   },
   {
+    path: 'friends',
+    loadChildren: () =>
+      import('./friends/friends.module').then((m) => m.FriendsModule),
+    canLoad: [AuthGuard],
+  },
+  {
     path: 'section/:id',
     component: SectionComponent,
   },
@@ -42,7 +47,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'auth',
+    redirectTo: 'home',
   },
 ];
 

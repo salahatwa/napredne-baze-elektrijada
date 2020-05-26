@@ -2,29 +2,43 @@
   <button mat-button (click)="home()">Elektrijada</button>
   <span fxFlex="1 1 auto"></span>
   <!-- spacer -->
-  <button
-    mat-button
-    *ngIf="isAdmin"
-    [routerLink]="['admin', 'dashboard']"
-    [routerLinkActive]="'route-active'"
-  >
-    <mat-icon>dashboard</mat-icon>DashBoard
-  </button>
-  <button
-    mat-button
-    [routerLink]="['groups']"
-    [routerLinkActive]="'route-active'"
-  >
-    <mat-icon>groups</mat-icon>Groups
-  </button>
-  <button
-    mat-button
-    [routerLink]="['profile', user._id]"
-    [routerLinkActive]="'route-active'"
-  >
-    <mat-icon>person</mat-icon>{{ user.username }}
-  </button>
-  <button mat-button (click)="logout()">
-    <mat-icon>lock_open</mat-icon>Logout
+
+  <ng-container *ngIf="isAuthenticated">
+    <button
+      mat-button
+      *ngIf="isAdmin"
+      [routerLink]="['admin', 'dashboard']"
+      [routerLinkActive]="'route-active'"
+    >
+      <mat-icon>dashboard</mat-icon>DashBoard
+    </button>
+    <button
+      mat-button
+      [routerLink]="['friends']"
+      [routerLinkActive]="'route-active'"
+    >
+      <mat-icon>supervisor_account</mat-icon>Friends
+    </button>
+    <button
+      mat-button
+      [routerLink]="['groups']"
+      [routerLinkActive]="'route-active'"
+    >
+      <mat-icon>groups</mat-icon>Groups
+    </button>
+    <button
+      mat-button
+      [routerLink]="['profile', user._id]"
+      [routerLinkActive]="'route-active'"
+    >
+      <mat-icon>person</mat-icon>{{ user.username }}
+    </button>
+    <app-notifications></app-notifications>
+    <button mat-button (click)="logout()">
+      <mat-icon>lock_open</mat-icon>Logout
+    </button>
+  </ng-container>
+  <button *ngIf="!isAuthenticated" mat-button [routerLink]="['auth', 'login']">
+    <mat-icon>lock_open</mat-icon>Login
   </button>
 </nav>

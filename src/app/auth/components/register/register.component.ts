@@ -18,6 +18,8 @@ export class RegisterComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
+      name: ['', Validators.required],
+      email: ['', [Validators.required,Validators.email]],
     },
     {
       validators: validators.passwordMismatch,
@@ -33,19 +35,16 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {}
 
   register() {
+    const userBody = this.registrationForm.value;
+    delete userBody.confirmPassword;
     this.error = '';
-    this.authService
-      .register(
-        this.registrationForm.value['username'],
-        this.registrationForm.value['password']
-      )
-      .subscribe(
-        (res) => {
-          if (res._id) {
-            this.router.navigate(['/home']);
-          }
-        },
-        (err: string) => (this.error = err)
-      );
+    this.authService.register(userBody).subscribe(
+      (res) => {
+        if (res._id) {
+          this.router.navigate(['/home']);
+        }
+      },
+      (err: string) => (this.error = err)
+    );
   }
 }

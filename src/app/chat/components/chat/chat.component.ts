@@ -1,13 +1,11 @@
-import { IChatSession } from './../../../models/IChatSession';
+import { IChatSession } from 'src/app/models/IChatSession';
 import { IChatMessage } from 'src/app/models/IChatMessage';
 import { SocketEventTypes } from './../../../constants/socket-event-types';
-import { filter } from 'rxjs/operators';
 import {
   Component,
   OnInit,
   ViewChild,
   ElementRef,
-  OnDestroy,
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IUser } from 'src/app/models/user.interface';
@@ -73,18 +71,28 @@ export class ChatComponent implements OnInit {
     private authService: AuthService,
     private chatService: ChatService,
     private socketService: SocketService,
-    private subsink: SubsinkService
+    private subsink: SubsinkService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.socketService.initSocket();
     this.initializeListeners();
+    this.subsink.add(
+      this.route.queryParamMap.subscribe((paramMap) => {
+        const sessionId = paramMap.get('sessionId');
+        if (sessionId) {
+          this.loadSessionAndMessages(sessionId);
+          this.isOpen = true;
+        }
+      })
+    );
   }
 
   initializeListeners() {
     this.subsink.add(
-      this.socketService.socketSubject
-        .pipe(filter(({ type }) => type === SocketEventTypes.MESSAGE))
+      this.socketService.getEvent(SocketEventTypes.MESSAGE)
         .subscribe(
           ({
             data: { session, message },
@@ -105,7 +113,29 @@ export class ChatComponent implements OnInit {
               }
             }
           }
-        )
+        ),
+      this.socketService.getEvent(SocketEventTypes.SESSION_CREATED)
+        .subscribe(({ data: { sessionId } }) => {
+          if (!this.session) {
+            this.router.navigate([], {
+              queryParams: {
+                sessionId: sessionId,
+              },
+            });
+          }
+        }),
+      this.socketService.getEvent(SocketEventTypes.SESSION_REMOVED)
+        .subscribe(({ data: { sessionId } }) => {
+          if (this.session && this.session._id === sessionId) {
+            this.leaveSession();
+          }
+        }),
+      this.socketService.getEvent(SocketEventTypes.SESSION_CHANGED)
+        .subscribe(({ data: { session } }) => {
+          if (this.session && this.session._id === session._id) {
+            this.session = session;
+          }
+        })
     );
   }
 
@@ -154,14 +184,16 @@ export class ChatComponent implements OnInit {
     this.chatService
       .getSessionWithMessages(sessionId, skip, take)
       .subscribe(({ messages, session }) => {
-        this.session = session;
-        // Only first time set messages, when skipping append to old
-        if (!skip) {
-          this.messages = messages.docs;
-        } else {
-          this.messages = [...this.messages, ...messages.docs];
+        if(session){
+          this.session = session;
+          // Only first time set messages, when skipping append to old
+          if (!skip) {
+            this.messages = messages.docs;
+          } else {
+            this.messages = [...this.messages, ...messages.docs];
+          }
+          this.totalMessages = messages.total;
         }
-        this.totalMessages = messages.total;
       });
   }
 
@@ -172,5 +204,23 @@ export class ChatComponent implements OnInit {
         (participant) => participant._id === userId
       )
     );
+  }
+
+  leaveSession() {
+    this.session = null;
+    this.router.navigate([], {
+      queryParams: {
+        sessionId: null,
+      },
+    });
+  }
+
+  minimizeSession() {
+    this.isOpen = false;
+    this.router.navigate([], {
+      queryParams: {
+        sessionId: null,
+      },
+    });
   }
 }

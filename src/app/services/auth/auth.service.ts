@@ -71,14 +71,11 @@ export class AuthService extends CacheService {
     ) as Observable<IUser>;
   }
 
-  register(username: string, password: string): Observable<IUser> {
+  register(userBody: Partial<IUser>): Observable<IUser> {
     return this.http
       .post<IServerAuthResponse>(
         environment.API_ENDPOINT + ApiEndpoints.REGISTER,
-        {
-          username,
-          password,
-        }
+        userBody
       )
       .pipe(
         map((data) => {

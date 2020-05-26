@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { FriendshipService } from './../../services/friendship.service';
 import { IFriendship } from './../../models/IFriendship';
 import { FriendRequestService } from './../../services/friend-request.service';
@@ -7,7 +8,6 @@ import { Component, OnInit, Injector, ViewChild } from '@angular/core';
 import { Roles } from 'src/app/services/auth/roles.enum';
 import { UserForm } from 'src/app/models/UserFormComponent';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from 'src/app/services/auth/auth.service';
 import { switchMap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { SubsinkService } from 'src/app/services/subsink.service';
@@ -54,6 +54,10 @@ export class ProfileComponent extends UserForm implements OnInit {
 
   ngOnInit() {
     super.ngOnInit();
+  }
+
+  get isAuthenticated() {
+    return this.authService.isAuthenticated;
   }
 
   fetchUser(id: string) {

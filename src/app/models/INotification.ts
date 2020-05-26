@@ -4,7 +4,7 @@ export interface INotification {
   _id?: string
   text: string
   relativeLink: string
-  emitter: IUser
+  emitter?: IUser
   receiver: string
   openedAt: Date
 }

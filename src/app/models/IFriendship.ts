@@ -1,9 +1,12 @@
-import { IUser } from './user.interface'
+import { IUser } from './user.interface';
 
 export interface IFriendship {
-  _id?: string
-  sender: string | IUser //id
-  receiver: string | IUser //id
-  createdAt: string
-  updatedAt: string
+  _id?: string;
+  mario: IUser;
+  luigi: IUser;
+  marioId: string;
+  luigiId: string;
+  createdAt: string;
+  updatedAt: string;
+  chatSessionId: string;
 }

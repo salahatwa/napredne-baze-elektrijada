@@ -5,8 +5,9 @@
       class="comment-avatar"
       width="48px"
       [src]="post.user.imageURL || 'assets/images/avatar.png'"
+      [routerLink]="['/profile', post.user._id]"
     />
-    <div hoverable>{{ post.user.name || post.user.username }}</div>
+    <div hoverable [routerLink]="['/profile', post.user._id]">{{ post.user.name || post.user.username }}</div>
     <span fxFlex="1 1 auto"></span>
     <!--SPACER-->
     <ng-container
@@ -108,7 +109,6 @@
       <button mat-menu-item (click)="removeComment(comment)">
         <mat-icon color="warn">delete</mat-icon>Delete
       </button>
-      <button mat-menu-item>Help</button>
     </mat-menu>
   </div>
 </ng-template>
@@ -122,7 +122,6 @@
       <button mat-menu-item (click)="postRemoved.emit(post)">
         <mat-icon color="warn">delete</mat-icon>Delete
       </button>
-      <button mat-menu-item>Help</button>
     </mat-menu>
   </div>
 </ng-template>

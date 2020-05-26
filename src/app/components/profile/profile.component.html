@@ -7,11 +7,12 @@
           [imgClasses]="'profile'"
           [defaultImg]="userForm.get('imageBase64').value || userForm.get('imageURL').value || 'assets/images/avatar.png'"
           (fileChanged)="updateImage($event)"
+          [disabled]="!isAuthenticated || !(itsMe || isAdmin)"
         >
         </app-image-picker>
         <!-- <img src="assets/images/avatar.png" width="100%"> -->
-        <small>Click on the image to change it</small>
-        <ng-container *ngIf="!itsMe">
+        <small *ngIf="itsMe || isAdmin">Click on the image to change it</small>
+        <ng-container *ngIf="!itsMe && isAuthenticated">
           <button
             *ngIf="friend"
             mat-raised-button

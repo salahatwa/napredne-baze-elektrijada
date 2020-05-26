@@ -1,6 +1,6 @@
 <ul>
   <li
-    *ngFor="let session of sessions$ | async"
+    *ngFor="let session of sessions"
     (click)="select.emit(session._id)"
   >
     <div

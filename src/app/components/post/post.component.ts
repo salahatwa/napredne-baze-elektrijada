@@ -33,16 +33,20 @@ export class PostComponent implements OnInit {
     this.event = this.post as IEvent; // for sake of recommendations
   }
 
-  addComment(comment: IComment) {
-    this.postService.addComment(this.post._id, comment).subscribe((comment) => {
+  addComment(commentBody: IComment) {
+    this.postService.addComment(this.post._id, commentBody).subscribe((comment) => {
       this.post.comments = [...this.post.comments, comment];
     });
   }
 
   removeComment(comment: IComment) {
-    this.postService.deleteComment(comment._id).subscribe(() => {
-      this.post.comments = this.post.comments.filter((com) => com !== comment);
-    });
+    if (confirm('Are you sure you want to delete comment?')) {
+      this.postService.deleteComment(comment._id).subscribe(() => {
+        this.post.comments = this.post.comments.filter(
+          (com) => com !== comment
+        );
+      });
+    }
   }
 
   get isEvent() {
