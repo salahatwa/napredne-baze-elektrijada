@@ -100,6 +100,7 @@ export class ChatComponent implements OnInit {
           }: {
             data: { session: IChatSession; message: IChatMessage };
           }) => {
+            console.log(message);
             if (this.session && this.session._id === session._id) {
               if (
                 !this.messages.some(
@@ -153,6 +154,7 @@ export class ChatComponent implements OnInit {
 
   updateScroll() {
     requestAnimationFrame(() => {
+      if (!this.msgContainer) return;
       const msgsEl = this.msgContainer.nativeElement;
       if (!msgsEl) return;
       msgsEl.scrollTop = msgsEl.scrollHeight;
@@ -220,6 +222,14 @@ export class ChatComponent implements OnInit {
     );
   }
 
+  getChatName() {
+    return (
+      this.session.participants.find(
+        (p) => p._id !== this.authService.currentUser._id
+      ) || { username: '' }
+    ).username;
+  }
+
   leaveSession() {
     this.session = null;
     this.router.navigate([], {
@@ -227,6 +237,11 @@ export class ChatComponent implements OnInit {
         sessionId: null,
       },
     });
+  }
+
+  open() {
+    this.isOpen = true;
+    this.updateScroll();
   }
 
   minimizeSession() {

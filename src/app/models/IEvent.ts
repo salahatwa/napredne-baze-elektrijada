@@ -14,6 +14,6 @@ export interface IEvent extends IPost {
     minute: string;
     second: string;
   };
-  // startsAt: Date
-  // endsAt: Date
 }
+
+

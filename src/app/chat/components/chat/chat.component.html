@@ -5,7 +5,7 @@
     mat-icon-button
     color="primary"
     class="chat__balloon"
-    (click)="isOpen = true"
+    (click)="open()"
   >
     <mat-icon>chat</mat-icon>
   </button>
@@ -14,7 +14,9 @@
       <button *ngIf="session" mat-icon-button (click)="leaveSession()">
         <mat-icon>arrow_back</mat-icon>
       </button>
-      <h2>{{ !session ? 'Select a session' : 'You are in session' }}</h2>
+      <h2>
+        {{ !session ? 'Select a session' : session.name || getChatName() }}
+      </h2>
       <button mat-icon-button (click)="minimizeSession()">
         <mat-icon class="adjust">minimize</mat-icon>
       </button>
@@ -28,13 +30,47 @@
           <ng-container *ngIf="session">
             <app-message
               *ngFor="let message of messages"
+              [color]="!message.text ? 'primary' : 'default'"
               [isMine]="message.sender === userId"
             >
-              {{
-                message.sender == userId
-                  ? 'Me'
-                  : getUser(message.sender)?.username || 'Deleted'
-              }}: {{ message.text }}
+              <ng-container *ngIf="message.text">
+                {{
+                  message.sender == userId
+                    ? 'Me'
+                    : getUser(message.sender)?.username || 'Deleted'
+                }}: {{ message.text }}
+              </ng-container>
+              <ng-container *ngIf="message.data as post">
+                <ng-container [ngSwitch]="message.data.__t">
+                  <div *ngSwitchCase="'TextPost'" class="post-msg">
+                    <h2>{{ post.title }}</h2>
+                    <p>{{ post.text }}</p>
+                    <a
+                      [routerLink]="['section', post.section]"
+                      [fragment]="post._id"
+                      >Go to post <mat-icon>arrow_forward</mat-icon></a
+                    >
+                  </div>
+                  <div *ngSwitchCase="'EventPost'" class="event-msg">
+                    <h2>Event: {{ post.title }}</h2>
+                    <div class="duration">
+                      <div class="start">
+                        <span>{{ post.startsAt | date: 'short' }}</span>
+                      </div>
+                      <span fxFlex="1 1 100%"></span>
+                      <div class="end">
+                        <span> {{ post.endsAt | date: 'short' }}</span>
+                      </div>
+                    </div>
+                    <p>{{ post.text }}</p>
+                    <a
+                      [routerLink]="['section', post.section]"
+                      [fragment]="post._id"
+                      >Go to post <mat-icon>arrow_forward</mat-icon></a
+                    >
+                  </div>
+                </ng-container>
+              </ng-container>
             </app-message>
           </ng-container>
         </div>

@@ -7,11 +7,13 @@ import { ActivatedRoute } from '@angular/router';
 import { PostTypes } from 'src/app/constants/post-types.enum';
 import { IPost } from 'src/app/models/IPost';
 import { PostService } from 'src/app/services/post.service';
+import { SubsinkService } from 'src/app/services/subsink.service';
 
 @Component({
   selector: 'app-section',
   templateUrl: './section.component.html',
   styleUrls: ['./section.component.scss'],
+  providers: [SubsinkService],
 })
 export class SectionComponent implements OnInit {
   postTypes = PostTypes;
@@ -25,15 +27,18 @@ export class SectionComponent implements OnInit {
     private route: ActivatedRoute,
     private postService: PostService,
     private sectionService: SectionService,
-    private authService: AuthService
+    private authService: AuthService,
+    private subsink: SubsinkService
   ) {}
 
   ngOnInit() {
-    this.route.paramMap.subscribe((params) => {
-      this.sectionId = params.get('id');
-      this.loadSection();
-      this.loadSectionPosts();
-    });
+    this.subsink.add(
+      this.route.paramMap.subscribe((params) => {
+        this.sectionId = params.get('id');
+        this.loadSection();
+        this.loadSectionPosts();
+      })
+    );
   }
 
   loadSection() {
@@ -48,6 +53,22 @@ export class SectionComponent implements OnInit {
       .subscribe(({ docs, total }) => {
         this.totalPosts = total;
         this.posts = [...this.posts, ...docs];
+
+        setTimeout(
+          () =>
+            this.subsink.add(
+              this.route.fragment.subscribe((fragment) => {
+                const el = document.getElementById(fragment);
+                if (el) {
+                  el.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                  });
+                }
+              })
+            ),
+          500
+        );
       });
   }
 
