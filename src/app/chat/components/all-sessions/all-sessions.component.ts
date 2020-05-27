@@ -1,3 +1,4 @@
+import { IUser } from 'src/app/models/user.interface';
 import { IChatMessage } from 'src/app/models/IChatMessage';
 import { SocketEventTypes } from './../../../constants/socket-event-types';
 import { SocketService } from 'src/app/services/socket.service';
@@ -29,7 +30,10 @@ export class AllSessionsComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.socketService.initSocket();
+    this.initializeListeners();
+  }
 
   getNParticipants(session: IChatSession, sliceTo) {
     return session.participants
@@ -41,29 +45,35 @@ export class AllSessionsComponent implements OnInit {
 
   initializeListeners() {
     this.subsink.add(
-      this.socketService.getEvent(SocketEventTypes.MESSAGE)
+      this.socketService
+        .getEvent(SocketEventTypes.MESSAGE)
         .subscribe(
           ({
-            data: { session, message },
+            data: { session, message, sender },
           }: {
-            data: { session: IChatSession; message: IChatMessage };
+            data: {
+              session: IChatSession;
+              message: IChatMessage;
+              sender: IUser;
+            };
           }) => {
             const appSession = this.sessions.find(
               (appSess) => appSess._id === session._id
             );
             if (appSession) {
-              appSession.lastMessage = message;
+              appSession.lastMessage = { ...message, sender };
             }
           }
         ),
-      this.socketService.getEvent(SocketEventTypes.SESSION_REMOVED)
+      this.socketService
+        .getEvent(SocketEventTypes.SESSION_REMOVED)
         .subscribe(({ data: { sessionId } }) => {
-          console.log(this.sessions,sessionId);
           this.sessions = this.sessions.filter(
             (session) => session._id !== sessionId
           );
         }),
-      this.socketService.getEvent(SocketEventTypes.SESSION_CHANGED)
+      this.socketService
+        .getEvent(SocketEventTypes.SESSION_CHANGED)
         .subscribe(({ data: { session } }) => {
           const sessionIndex = this.sessions.findIndex(
             (appSess) => appSess._id === session._id

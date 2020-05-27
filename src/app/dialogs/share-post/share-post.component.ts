@@ -36,6 +36,15 @@ export class SharePostComponent implements OnInit {
   }
 
   sendPostAsMessage(sessionId: string) {
+    this.chatService
+      .sendMessageInSession(
+        {
+          data: this.data._id,
+          onModel: 'Post',
+        },
+        sessionId
+      )
+      .subscribe();
     this.sentTo.push(sessionId);
   }
 

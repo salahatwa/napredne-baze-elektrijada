@@ -94,7 +94,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {}
 
   addProfessor(professor: IUser, editing: boolean) {
-    console.log(professor);
     if (editing) {
       this.professorService
         .updateProfessor(professor)
