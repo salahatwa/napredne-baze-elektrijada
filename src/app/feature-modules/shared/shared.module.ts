@@ -7,6 +7,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { HoverableDirective } from 'src/app/feature-modules/shared/directives/hoverable.directive';
 import { CanSeeDirective } from './directives/can-see.directive';
 import { MustBeAuthenticatedDirective } from './directives/must-be-authenticated.directive';
+import { FreeInputDirective } from './directives/free-input.directive';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { MustBeAuthenticatedDirective } from './directives/must-be-authenticated
     HoverableDirective,
     CanSeeDirective,
     MustBeAuthenticatedDirective,
+    FreeInputDirective,
   ],
   imports: [
     CommonModule,
@@ -32,6 +34,7 @@ import { MustBeAuthenticatedDirective } from './directives/must-be-authenticated
     HoverableDirective,
     CanSeeDirective,
     MustBeAuthenticatedDirective,
+    FreeInputDirective,
   ],
 })
 export class SharedModule {}

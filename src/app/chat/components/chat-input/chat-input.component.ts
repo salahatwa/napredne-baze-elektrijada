@@ -45,7 +45,7 @@ export class ChatInputComponent implements OnInit, ControlValueAccessor {
   maxHeight: number;
   lineHeightVal: number;
 
-  onChange = () => {};
+  onChange = (value: string) => {};
   onTouched = () => {};
 
   @ViewChild('textarea', { static: true })
