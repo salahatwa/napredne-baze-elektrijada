@@ -1,5 +1,5 @@
 <div class="container">
-  <ng-container *ngIf="canCreatePosts">
+  <ng-container *canSee="['Admin','Professor']">
   <div *ngIf="creatingAtm === postTypes.NONE; else form">
     <h4 class="mat-h4 gray-text text-center">Create</h4>
     <div

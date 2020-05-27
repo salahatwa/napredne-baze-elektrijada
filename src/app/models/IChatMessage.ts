@@ -8,7 +8,7 @@ export interface IChatMessage {
   _id?: string;
   text?: string;
   sender: string | IUser;
-  data?: IEvent | IPost;
+  data?: IEvent | IPost | string;
   onModel?: MessageDataType;
   session: string | IChatSession;
   filesBase64?: string[];

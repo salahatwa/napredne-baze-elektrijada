@@ -1,4 +1,4 @@
-<mat-chip-list *ngIf="emailStats">
+<mat-chip-list *ngIf="emailStats" class="statistics">
   <mat-chip color="primary">Emails sent: {{emailStats.emailsSent || 0}}</mat-chip>
   <mat-chip color="warn">Emails failed: {{emailStats.emailsFailed || 0}}</mat-chip>
   <mat-chip color="accent">Emails pending: {{emailStats.emailsPending || 0}}</mat-chip>

@@ -77,6 +77,7 @@ export class SectionComponent implements OnInit {
       .createPost(postBody, this.sectionId, this.creatingAtm)
       .subscribe((post) => {
         this.posts = [{ ...post, comments: [] }, ...this.posts];
+        this.creatingAtm = PostTypes.NONE;
       });
   }
 
@@ -88,11 +89,5 @@ export class SectionComponent implements OnInit {
         );
       });
     }
-  }
-
-  get canCreatePosts() {
-    return this.authService.currentUser.roles.some((role) =>
-      [Roles.ADMIN, Roles.PROFESSOR].includes(role as Roles)
-    );
   }
 }

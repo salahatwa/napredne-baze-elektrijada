@@ -97,6 +97,7 @@ export class AuthService extends CacheService {
 
   logout() {
     this.clearToken();
+    this.clearAuthStatus();
     this.authStatus.next(defaultAuthStatus);
   }
 
@@ -110,6 +111,10 @@ export class AuthService extends CacheService {
 
   private clearToken() {
     this.removeItem('token');
+  }
+
+  private clearAuthStatus(){
+    this.removeItem('authStatus')
   }
 
   get isAuthenticated(): boolean {

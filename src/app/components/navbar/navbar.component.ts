@@ -10,11 +10,12 @@ import { IUser } from 'src/app/models/user.interface';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  user: IUser;
   constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit() {
-    this.user = this.authService.user;
+  ngOnInit() {}
+
+  get user() {
+    return this.authService.user;
   }
 
   home() {

@@ -27,8 +27,6 @@ export class PostCreateComponent extends FormComponent<IPost>
   array24 = arrayMaker(24);
   array60 = arrayMaker(60);
 
-  myContext = { name: "nesto" };
-
   postTypes = PostTypes;
   postForm: FormGroup;
 

@@ -12,7 +12,7 @@
     </div>
     <span fxFlex="1 1 auto"></span>
 
-    <button mat-icon-button (click)="openShareDialog()">
+    <button *mustBeAuthenticated="true" mat-icon-button (click)="openShareDialog()">
       <mat-icon>share</mat-icon>
     </button>
     <ng-container
@@ -39,7 +39,7 @@
     </div>
     <hr />
     <h5 [style.font-weight]="'bold'">Komentari({{ post.comments.length }})</h5>
-    <app-comment-create (submitted)="addComment($event)"></app-comment-create>
+    <app-comment-create *mustBeAuthenticated="true" (submitted)="addComment($event)"></app-comment-create>
     <div class="comment" *ngFor="let comment of post.comments">
       <div fxLayout="row" fxLayoutGap="12px">
         <div fxFlex="0 0 auto">

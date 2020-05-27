@@ -100,7 +100,6 @@ export class ChatComponent implements OnInit {
           }: {
             data: { session: IChatSession; message: IChatMessage };
           }) => {
-            console.log(message);
             if (this.session && this.session._id === session._id) {
               if (
                 !this.messages.some(
