@@ -149,7 +149,9 @@ export class ChatInputComponent implements OnInit, ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.textarea.nativeElement.focus();
+  }
 
   onKeyDown(ev: KeyboardEvent) {
     this.onTouched();

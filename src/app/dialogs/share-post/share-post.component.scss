@@ -1,0 +1,14 @@
+@import '../../../scss/settings';
+
+:host {
+  display: block;
+  min-width: 500px;
+
+  mat-list {
+    @include list-items;
+
+    img {
+      @include list-item-avatar;
+    }
+  }
+}

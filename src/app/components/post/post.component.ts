@@ -7,6 +7,8 @@ import { PostService } from 'src/app/services/post.service';
 import { IUser } from 'src/app/models/user.interface';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Roles } from 'src/app/services/auth/roles.enum';
+import { MatDialog } from '@angular/material';
+import { SharePostComponent } from 'src/app/dialogs/share-post/share-post.component';
 
 @Component({
   selector: 'app-post',
@@ -24,7 +26,8 @@ export class PostComponent implements OnInit {
 
   constructor(
     private postService: PostService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialog: MatDialog
   ) {
     this.currentUser = this.authService.currentUser;
   }
@@ -34,9 +37,11 @@ export class PostComponent implements OnInit {
   }
 
   addComment(commentBody: IComment) {
-    this.postService.addComment(this.post._id, commentBody).subscribe((comment) => {
-      this.post.comments = [...this.post.comments, comment];
-    });
+    this.postService
+      .addComment(this.post._id, commentBody)
+      .subscribe((comment) => {
+        this.post.comments = [...this.post.comments, comment];
+      });
   }
 
   removeComment(comment: IComment) {
@@ -47,6 +52,12 @@ export class PostComponent implements OnInit {
         );
       });
     }
+  }
+
+  openShareDialog(): void {
+    const dialogRef = this.dialog.open(SharePostComponent, {
+      data: this.post,
+    });
   }
 
   get isEvent() {

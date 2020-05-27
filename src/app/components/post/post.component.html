@@ -7,9 +7,14 @@
       [src]="post.user.imageURL || 'assets/images/avatar.png'"
       [routerLink]="['/profile', post.user._id]"
     />
-    <div hoverable [routerLink]="['/profile', post.user._id]">{{ post.user.name || post.user.username }}</div>
+    <div hoverable [routerLink]="['/profile', post.user._id]">
+      {{ post.user.name || post.user.username }}
+    </div>
     <span fxFlex="1 1 auto"></span>
-    <!--SPACER-->
+
+    <button mat-icon-button (click)="openShareDialog()">
+      <mat-icon>share</mat-icon>
+    </button>
     <ng-container
       *ngTemplateOutlet="
         (isAdmin || currentUser._id === post.user?._id) && postMenu;

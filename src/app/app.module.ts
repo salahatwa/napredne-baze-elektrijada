@@ -19,6 +19,7 @@ import { ChatModule } from './chat/chat.module';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatMenuModule } from '@angular/material/menu';
+import { SharePostComponent } from './dialogs/share-post/share-post.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { MatMenuModule } from '@angular/material/menu';
     PostComponent,
     CommentCreateComponent,
     NotificationsComponent,
+    SharePostComponent,
   ],
   imports: [
     FormsModule,
@@ -43,6 +45,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatBadgeModule,
     MatMenuModule,
   ],
+  entryComponents: [SharePostComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

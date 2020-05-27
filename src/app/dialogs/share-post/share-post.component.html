@@ -1,0 +1,35 @@
+<header>
+  <h2>Share {{ data?.title }} to:</h2>
+</header>
+<main>
+  <mat-list>
+    <mat-list-item *ngFor="let session of sessions">
+      <ng-container *ngIf="session.name || getChatName(session) as sessionName">
+        <div class="content">
+          {{ sessionName }}
+        </div>
+        <a
+          *ngIf="sentTo.includes(session._id)"
+          mat-icon-button
+          color="primary"
+          [routerLink]="[]"
+          [queryParams]="{
+            sessionId: session._id
+          }"
+          (click)="close()"
+        >
+          <mat-icon>chat</mat-icon>
+        </a>
+        <button
+          mat-icon-button
+          color="primary"
+          [disabled]="sentTo.includes(session._id)"
+          (click)="sendPostAsMessage(session._id)"
+        >
+          <mat-icon>send</mat-icon>
+        </button>
+      </ng-container>
+    </mat-list-item>
+  </mat-list>
+</main>
+<footer></footer>

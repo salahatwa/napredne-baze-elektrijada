@@ -9,7 +9,7 @@
         </a>
         <button
           mat-icon-button
-          routerLink="."
+          [routerLink]="[]"
           [queryParams]="{ sessionId: getFriendship(friend._id).chatSessionId }"
         >
           <mat-icon>chat</mat-icon>

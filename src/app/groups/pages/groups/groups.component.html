@@ -15,7 +15,7 @@
       ><div class="content">{{ group.name }}</div>
       <a
         (click)="$event.stopPropagation()"
-        routerLink="."
+        [routerLink]="[]"
         [queryParams]="{ sessionId: group.chatSessionId }"
         mat-icon-button
         ><mat-icon>chat</mat-icon></a

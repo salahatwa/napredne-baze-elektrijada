@@ -51,7 +51,7 @@ export class ChatComponent implements OnInit {
     text: ['', Validators.required],
   });
 
-  isOpen = true;
+  isOpen = false;
   receiverId: string;
   loadingMsgs = false;
   totalMessages: number;
